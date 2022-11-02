@@ -218,7 +218,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 Clothes</a></li>
           </ol>
         </nav>
-        <small style="justify-content: right;">Copyright &copy; 2022 Nathan Hartung &amp; Vivine Zheng</small>
       </div>
     </nav>
   </footer>

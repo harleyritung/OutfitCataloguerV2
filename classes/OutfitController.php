@@ -124,6 +124,11 @@ class OutfitController
         if (!isset($_SESSION["name"])) {
             header("Location: ?command=login");
         }
+        // check if any rows in outfits for this user, then display them or say no outfits created
+        $outfits = $this->db->query("select * from Outfit where UserID = ?;", "i", $_SESSION["UserID"]);
+        if (empty($data)) {
+            $error_msg = "You haven't created any outfits.";
+        }
         include("templates/home.php");
     }
 }

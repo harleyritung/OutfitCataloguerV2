@@ -81,8 +81,13 @@
     <div class="container spaced-from-tb">
       <h1 class="display-6 underlined">Favorite Pieces</h1>
       <p>View your most frequently used pieces of clothing here.</p>
-      <div class="row">
-        <div class="container-fluid">
+      <div class="row justify-content-center">
+        <?php
+            if (!empty($error_msg)) {
+                echo "<div class='alert alert-warning'>$error_msg</div>";
+            }
+        ?>
+        <!-- <div class="container-fluid">
           <a href="#" class="image-link">
             <img src="images/150x150.png" alt="150x150 grey image placeholder box." class="img-thumbnail">
           </a>
@@ -101,37 +106,22 @@
           <a href="#" class="image-link">
             <img src="images/150x150.png" alt="150x150 grey image placeholder box." class="img-thumbnail">
           </a>
-        </div>
+        </div> -->
+        
       </div>
       <br>
       <br>
       <h1 class="display-6 underlined">Favorite Pairings</h1>
       <p>Pieces that you like to wear together.</p>
+      <div class="row justify-content-center">
+        <?php
+            if (!empty($error_msg)) {
+                echo "<div class='alert alert-warning'>$error_msg</div>";
+            }
+        ?>
+      </div>
       <div class="row">
-        <div class="col-auto p-2 m-2 border">
-          <a href="#" class="image-link">
-            <img src="images/150x150.png" alt="150x150 grey image placeholder box." class="img-thumbnail">
-          </a>
-          <a href="#" class="image-link">
-            <img src="images/150x150.png" alt="150x150 grey image placeholder box." class="img-thumbnail">
-          </a>
-        </div>
-        <div class="col-auto p-2 m-2 border">
-          <a href="#" class="image-link">
-            <img src="images/150x150.png" alt="150x150 grey image placeholder box." class="img-thumbnail">
-          </a>
-          <a href="#" class="image-link">
-            <img src="images/150x150.png" alt="150x150 grey image placeholder box." class="img-thumbnail">
-          </a>
-        </div>
-        <div class="col-auto p-2 m-2 border">
-          <a href="#" class="image-link">
-            <img src="images/150x150.png" alt="150x150 grey image placeholder box." class="img-thumbnail">
-          </a>
-          <a href="#" class="image-link">
-            <img src="images/150x150.png" alt="150x150 grey image placeholder box." class="img-thumbnail">
-          </a>
-        </div>
+
       </div>
       <br>
       <br>
@@ -151,8 +141,6 @@
             </li>
           </ol>
         </nav>
-        <!-- Copyright -->
-        <small style="justify-content: right;">Copyright &copy; 2022 Nathan Hartung &amp; Vivine Zheng</small>
       </div>
     </nav>
   </footer>

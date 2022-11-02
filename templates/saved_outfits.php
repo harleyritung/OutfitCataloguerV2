@@ -147,7 +147,6 @@
                 href="?command=saved_outfits">Saved Outfits</a></li>
           </ol>
         </nav>
-        <small style="justify-content: right;">Copyright &copy; 2022 Nathan Hartung &amp; Vivine Zheng</small>
       </div>
     </nav>
   </footer>

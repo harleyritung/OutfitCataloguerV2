@@ -352,7 +352,6 @@
                 href="?command=create_outfits">Create Outfits</a></li>
           </ol>
         </nav>
-        <small style="justify-content: right;">Copyright &copy; 2022 Nathan Hartung &amp; Vivine Zheng</small>
       </div>
     </nav>
   </footer>

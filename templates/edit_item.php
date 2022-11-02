@@ -422,7 +422,6 @@
             <li class="breadcrumb-item active" aria-current="page"><a class="active-link" href="?command=command=edit_item">Edit Item</a></li>
           </ol>
         </nav>
-        <small style="justify-content: right;">Copyright &copy; 2022 Nathan Hartung &amp; Vivine Zheng</small>
       </div>
     </nav>
   </footer>

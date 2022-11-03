@@ -61,16 +61,11 @@
     <div class="container-fluid">
       <ul class="nav nav-tabs justify-content-center">
         <li class="nav-item page-nav-item">
-          <a class="nav-link" href="?command=upload_clothes">Upload Clothes</a>
+          <a class="nav-link" href="?command=clothes_home">Your Clothes</a>
         </li>
         <li class="nav-item page-nav-item">
-          <a class="nav-link" href="?command=edit_clothes">Edit Clothes</a>
+          <a class="nav-link" href="?command=outfits_home">Your Outfits</a>
         </li>
-        <li class="nav-item page-nav-item">
-          <a class="nav-link" href="?command=create_outfits">Create Outfits</a>
-        </li>
-        <li class="nav-item page-nav-item">
-          <a class="nav-link" href="?command=saved_outfits">Saved Outfits</a>
         </li>
       </ul>
     </div>

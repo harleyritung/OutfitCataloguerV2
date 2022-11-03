@@ -30,12 +30,87 @@ class OutfitController
             case "home":
                 $this->home();
                 break;
-
+            case "clothes_home":
+                $this->clothes_home();
+                break;
+            case "outfit_home":
+                $this->outfit_home();
+                break;
             default:
                 $this->login();
                 break;
         }
     }
+
+        // finds rows that have attributes like *searchString* in table (Outfit or Clothes)
+        public function search($searchString, $table) {
+            // search in Clothes table
+            $data = NULL;
+            if ($table === "Clothes") {
+                $accessory = "select itemID from Accessory where AccessoryType like ?";
+                $dress = "select itemID from Dress 
+                where DressLength like ?
+                or DressSleeveLength like ?
+                or DressType like ?";
+                $jewelry ="select itemID from Jewelry where jewelryType like ?";
+                $outerwear = "select itemID from Outerwear 
+                where OuterwearLength like ?
+                or OuterwearWeight like ?
+                or OuterWearType like ?";
+                $pants = "select itemID from Pants 
+                where PantsLength like ?
+                or PantsWeight like ?
+                or PantsFit like ?";
+                $shirt = "select itemID from Shirt 
+                where ShirtLength like ?
+                or ShirtSleeveLength like ?
+                or ShirtType like ?";
+                $skirt = "select itemID from Skirt 
+                where SkirtLength like ?
+                or SkirtType like ?";
+                $shoes = "select itemID from Shoes where ShoesType like ?";
+                $formality = "select itemID from clothes_Formality where Formality like ?";
+                $secondaryColor = "select itemID from Clothes_SecondaryColor where secondaryColor like ?";
+                $style = "select itemID from Clothes_Style where Style like ?";
+    
+                $data = $this->db->query("select itemID, image from Clothes
+                where pattern like ?
+                or primaryColor like ?
+                or material like ?
+                or brand like ?
+                and UserID = ?
+                and itemID in (
+                    " . $accessory . " union
+                    " . $dress . " union
+                    " . $jewelry . " union
+                    " . $outerwear . " union
+                    " . $pants . " union
+                    " . $shirt . " union
+                    " . $skirt . " union
+                    " . $shoes . " union
+                    " . $formality . " union
+                    " . $secondaryColor . " union
+                    " . $style .
+                ");",
+                "ssssissssssssssssssssssss",
+                $searchString, $searchString, $searchString, $searchString,
+                // this will get replaced with UserID from session
+                $_SESSION["UserID"],
+                $searchString,
+                $searchString, $searchString, $searchString,
+                $searchString,
+                $searchString, $searchString, $searchString,
+                $searchString, $searchString, $searchString,
+                $searchString, $searchString, $searchString,
+                $searchString, $searchString,
+                $searchString, $searchString, $searchString, $searchString
+                );
+            }
+            else if ($table === "Outfit") {
+    
+            }
+            return $data;
+        }
 
     public function delete_session()
     {
@@ -130,5 +205,14 @@ class OutfitController
             $error_msg = "You haven't created any outfits.";
         }
         include("templates/home.php");
+    }
+
+    public function clothes_home() {
+        $data = $this->search("black", "Clothes");
+        include("templates/clothes_home.php");
+    }
+
+    public function outfit_home() {
+
     }
 }

@@ -2,12 +2,11 @@
 <html lang="en">
 
 <head>
-  <!-- cs4640 server link: https://cs4640.cs.virginia.edu/vz5ud/sprint2/ -->
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <meta name="author" content="Nathan Hartung, Vivine Zheng">
+  <meta name="author" content="Riley Hartung, Sophia Walton, Giovanni Cianciaruso, Raneem Khan">
   <meta name="description" content="A website for uploading clothing and generating outfits based on user input.">
   <meta name="keywords"
     content="outfit maker, outfit creator, outfit inspiration, outfit cataloguer, wardorbe organizer">
@@ -37,6 +36,32 @@
               <a class="nav-link active" aria-current="page" href="?command=home">Home</a>
             </li>
             <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="?command=clothes_home" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                Clothes
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="?command=clothes_home">Your Clothes</a></li>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item" href="?command=clothes_add">Add Clothes</a></li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="?command=outfit_home" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                Outfits
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="?command=outfit_home">Your Outfits</a></li>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item" href="?command=outfit_add">Add Outfits</a></li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
                 aria-expanded="false">
                 Settings
@@ -58,17 +83,17 @@
     </nav>
 
     <!-- Page navbar -->
-    <div class="container-fluid">
+    <!-- <div class="container-fluid">
       <ul class="nav nav-tabs justify-content-center">
         <li class="nav-item page-nav-item">
           <a class="nav-link" href="?command=clothes_home">Your Clothes</a>
         </li>
         <li class="nav-item page-nav-item">
-          <a class="nav-link" href="?command=outfits_home">Your Outfits</a>
+          <a class="nav-link" href="?command=outfit_home">Your Outfits</a>
         </li>
         </li>
       </ul>
-    </div>
+    </div> -->
   </header>
 
   <!-- Page content begins -->
@@ -82,27 +107,6 @@
                 echo "<div class='alert alert-warning'>$error_msg</div>";
             }
         ?>
-        <!-- <div class="container-fluid">
-          <a href="#" class="image-link">
-            <img src="images/150x150.png" alt="150x150 grey image placeholder box." class="img-thumbnail">
-          </a>
-          <a href="#" class="image-link">
-            <img src="images/150x150.png" alt="150x150 grey image placeholder box." class="img-thumbnail">
-          </a>
-          <a href="#" class="image-link">
-            <img src="images/150x150.png" alt="150x150 grey image placeholder box." class="img-thumbnail">
-          </a>
-          <a href="#" class="image-link">
-            <img src="images/150x150.png" alt="150x150 grey image placeholder box." class="img-thumbnail">
-          </a>
-          <a href="#" class="image-link">
-            <img src="images/150x150.png" alt="150x150 grey image placeholder box." class="img-thumbnail">
-          </a>
-          <a href="#" class="image-link">
-            <img src="images/150x150.png" alt="150x150 grey image placeholder box." class="img-thumbnail">
-          </a>
-        </div> -->
-        
       </div>
       <br>
       <br>

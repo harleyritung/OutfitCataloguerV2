@@ -15,37 +15,77 @@ class OutfitController
 
     public function run()
     {
+        $params = array_merge($_GET, array('test' => 'testvalue'));
+        $new_query_string = http_build_query($params);
+        // print_r($_SESSION["command"]);
         switch ($this->command) {
             case "logout":
                 $this->delete_session();
                 session_start();
                 $this->login();
+                $_SESSION["command"] = "logout";
                 break;
             case "login":
+                // print("login");
                 $this->login();
+                $_SESSION["command"] = "login";
                 break;
             case "create_account":
                 $this->create_account();
+                $_SESSION["command"] = "create_account";
                 break;
             case "home":
                 $this->home();
+                $_SESSION["command"] = "home";
                 break;
             case "clothes_home":
                 $this->clothes_home();
+                $_SESSION["command"] = "clothes_home";
+                break;
+            case "clothes_add":
+                $this->clothes_add();
+                $_SESSION["command"] = "clothes_add";
                 break;
             case "outfit_home":
                 $this->outfit_home();
+                $_SESSION["command"] = "outfit_home";
                 break;
             default:
-                $this->login();
+                print("default");
+                switch($_SESSION["command"]) {
+                    case "logout":
+                        $this->delete_session();
+                        session_start();
+                        $this->login();
+                        break;
+                    case "login":
+                        $this->login();
+                        break;
+                    case "create_account":
+                        $this->create_account();
+                        break;
+                    case "home":
+                        $this->home();
+                        break;
+                    case "clothes_home":
+                        $this->clothes_home();
+                        break;
+                    case "outfit_home":
+                        $this->outfit_home();
+                        break;
+                    default:
+                        $this->login();
+                        break;
+                }
                 break;
         }
     }
 
-        // finds rows that have attributes like *searchString* in table (Outfit or Clothes)
+        // finds rows that have attributes like searchString in table (Outfit or Clothes)
         public function search($searchString, $table) {
+            $data = array();
             // search in Clothes table
-            $data = NULL;
+            // returns a 2D array of the itemIDs and image paths for all of the clothes matching the search
             if ($table === "Clothes") {
                 $accessory = "select itemID from Accessory where AccessoryType like ?";
                 $dress = "select itemID from Dress 
@@ -74,10 +114,10 @@ class OutfitController
                 $style = "select itemID from Clothes_Style where Style like ?";
     
                 $data = $this->db->query("select itemID, image from Clothes
-                where pattern like ?
+                where (pattern like ?
                 or primaryColor like ?
                 or material like ?
-                or brand like ?
+                or brand like ?)
                 and UserID = ?
                 and itemID in (
                     " . $accessory . " union
@@ -106,8 +146,42 @@ class OutfitController
                 $searchString, $searchString, $searchString, $searchString
                 );
             }
+
+            // Search in Outfit table
+            // returns a 3D array of the clothes' itemIDs and image paths corresponding to the outfits that match the search
             else if ($table === "Outfit") {
-    
+                // find outfitIDs matching search
+                $itemIDs = array();
+                $outfitIDs = $this->db->query("select outfitID from Outfit
+                where UserID = ? and
+                (season = ? or
+                outfitName = ? or
+                formality = ?);",
+                "isss",
+                3, $searchString, $searchString, $searchString
+                );
+                // find all of the itemIDs for each of the outfits
+                foreach ($outfitIDs[0] as $outfitID) {
+                    print($outfitID);
+                    $itemID = $this->db->query("select itemID from MakeUp where outfitID = ? and UserID = ?;", 
+                    "ii", 
+                    $outfitID, 3
+                    );
+                    print_r($itemID);
+                    array_push($itemIDs, $itemID);
+                    $outfit = array();
+                    // get the images from Clothes for the itemIDs
+                    foreach ($itemIDs[0][0] as $itemID) {
+                        print($itemID);
+                        $item = $this->db->query("select itemID, image from Clothes where itemID = ? and UserID = ?;", 
+                        "ii",
+                        $itemID, 3
+                        );
+                        array_push($outfit, $item);
+                    }
+                    array_push($data, $outfit);
+                    $itemIDs = array();
+                }
             }
             return $data;
         }
@@ -196,9 +270,6 @@ class OutfitController
 
     public function home()
     {
-        if (!isset($_SESSION["name"])) {
-            header("Location: ?command=login");
-        }
         // check if any rows in outfits for this user, then display them or say no outfits created
         $outfits = $this->db->query("select * from Outfit where UserID = ?;", "i", $_SESSION["UserID"]);
         if (empty($data)) {
@@ -208,11 +279,79 @@ class OutfitController
     }
 
     public function clothes_home() {
-        $data = $this->search("black", "Clothes");
+        // display all of the users uploaded clothes
+        $data = $this->db->query("select itemID, image from Clothes where UserID = ?;", "i", $_SESSION["UserID"]);
+
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            print_r($_GET);
+            // replace black with search string
+            $data = $this->search("black", "Clothes");
+            if (sizeof($data) == 0) {
+                $error_msg = "No matching clothes found";
+            }
+        }
+        else {
+            // select all clothes with this UserID and display
+        }
         include("templates/clothes_home.php");
     }
 
-    public function outfit_home() {
+    public function clothes_add() {
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $filename = "";
+            // print_r($_POST);
+            // image uploaded
+            if ($_FILES["article_img"]["error"] !== 4) {
+                $filename = $_FILES["article_img"]["name"];
+                $tempname = $_FILES["article_img"]["tmp_name"];
+                $folder = "/Applications/XAMPP/xamppfiles/htdocs/cs4750/OutfitCataloguerV2/images/" . $filename;
+            
+                // move the uploaded image into the folder
+                if (copy($tempname, $folder)) {
+                    // echo "<h3> Image uploaded successfully!</h3>";
+                } else {
+                    echo "<h3> Failed to upload image!</h3>";
+                }
+                // print($_FILES['article_img']['error']);
+                // $filename = "/Applications/XAMPP/xamppfiles/htdocs/cs4750/ImageTesting/image/";
+                // if (is_writable($filename)) {
+                //     echo 'The file is writable';
+                // } else {
+                //     echo 'The file is not writable';
+                // }
+            }
 
+            switch ($_POST["Type"]) {
+                case "Skirt":
+                    $this->db->query("call InsertSkirt(?, ?, ?, ?, ?, ?, ?, ?);",
+                    "sssssssi",
+                    $_POST["Pattern"],
+                    $_POST["PrimaryColor"],
+                    $_POST["Material"],
+                    $filename,
+                    $_POST["Brand"],
+                    $_POST["SkirtLength"],
+                    $_POST["SkirtType"],
+                    $_SESSION["UserID"]
+                    );
+                    break;
+                default:
+                    print("default");
+                    break;
+            }
+        }
+        include("templates/clothes_add.php");
+    }
+
+    public function outfit_home() {
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            print_r($_GET);
+            // replace black with search string
+            $data = $this->search("casual", "Outfit");
+            if (sizeof($data) == 0) {
+                $error_msg = "No matching outfits found";
+            }
+        }
+        include("templates/outfit_home.php");
     }
 }

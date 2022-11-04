@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <meta name="author" content="Nathan Hartung, Vivine Zheng">
+  <meta name="author" content="Riley Hartung, Sophia Walton, Giovanni Cianciaruso, Raneem Khan">
   <meta name="description" content="A website for uploading clothing and generating outfits based on user input.">
   <meta name="keywords"
     content="outfit maker, outfit creator, outfit inspiration, outfit cataloguer, wardorbe organizer">
@@ -49,10 +49,10 @@
             }
         ?>
         <div class="col-4">
-        <form action="?command=login" method="post" onsubmit="return validate('email', 'password');">
+        <form action="?command=login" method="post" onsubmit="return validate('email_address', 'password');">
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" name="email_address"/>
+                <input type="email" class="form-control" id="email_address" name="email_address"/>
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label">Password</label>

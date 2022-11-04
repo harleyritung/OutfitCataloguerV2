@@ -312,13 +312,6 @@ class OutfitController
                 } else {
                     echo "<h3> Failed to upload image!</h3>";
                 }
-                // print($_FILES['article_img']['error']);
-                // $filename = "/Applications/XAMPP/xamppfiles/htdocs/cs4750/ImageTesting/image/";
-                // if (is_writable($filename)) {
-                //     echo 'The file is writable';
-                // } else {
-                //     echo 'The file is not writable';
-                // }
             }
 
             switch ($_POST["Type"]) {
@@ -339,8 +332,11 @@ class OutfitController
                     print("default");
                     break;
             }
+            header("Location: ?command=clothes_home");
         }
-        include("templates/clothes_add.php");
+        else {
+            include("templates/clothes_add.php");
+        }
     }
 
     public function outfit_home() {

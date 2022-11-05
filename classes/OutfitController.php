@@ -281,6 +281,9 @@ class OutfitController
     public function clothes_home() {
         // display all of the users uploaded clothes
         $data = $this->db->query("select itemID, image from Clothes where UserID = ?;", "i", $_SESSION["UserID"]);
+        if (sizeof($data) === 0) {
+            $error_msg = "You haven't uploaded any clothes";
+        }
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             print_r($_GET);
@@ -302,8 +305,9 @@ class OutfitController
             // print_r($_POST);
             // image uploaded
             if ($_FILES["article_img"]["error"] !== 4) {
-                $filename = $_FILES["article_img"]["name"];
+                // $filename = $_FILES["article_img"]["name"];
                 $tempname = $_FILES["article_img"]["tmp_name"];
+                $filename = explode("/", $tempname)[5];
                 $folder = "/Applications/XAMPP/xamppfiles/htdocs/cs4750/OutfitCataloguerV2/images/" . $filename;
             
                 // move the uploaded image into the folder
@@ -312,6 +316,9 @@ class OutfitController
                 } else {
                     echo "<h3> Failed to upload image!</h3>";
                 }
+            }
+            else {
+                print("failed");
             }
 
             switch ($_POST["Type"]) {
@@ -334,9 +341,7 @@ class OutfitController
             }
             header("Location: ?command=clothes_home");
         }
-        else {
-            include("templates/clothes_add.php");
-        }
+        include("templates/clothes_add.php");
     }
 
     public function outfit_home() {

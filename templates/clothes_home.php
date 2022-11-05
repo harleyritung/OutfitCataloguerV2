@@ -87,21 +87,28 @@
     </nav>
   </header> 
 
-  <?php 
-    if (!empty($error_msg)) {
-        echo "<div class='alert alert-warning'>$error_msg</div>";
-    }
-  ?>
-  <div id="display-clothes">
-    <?php
-      foreach ($data as $image) {
-    ?>
+
+  <!-- Page content begins -->
+  <div class="col-12" id="scroll-Div">
+    <div class="container spaced-from-tb">
+      <h1 class="display-6 underlined">Your Clothes</h1>
+      <p></p>
+      <div class="row justify-content-center">
+        <?php
+            if (!empty($error_msg)) {
+                echo "<div class='alert alert-warning'>$error_msg</div>";
+            }
+        ?>
+      </div>
+      <?php
+        foreach ($data as $image) {
+      ?>
         <img src="./images/<?php echo $image['image']; ?>">
         <?php
-      }
-    ?>
+        }
+      ?>
+    </div>
   </div>
-    
 
   <footer>
     <!-- Bottom nav -->

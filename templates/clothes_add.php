@@ -84,7 +84,7 @@
   <!-- content -->
   <section>
     <!-- Upload clothes form -->
-    <form enctype="multipart/form-data" action="?command=clothes_add" method="post">
+    <form enctype="multipart/form-data" action="?command=clothes_add" method="post" onsubmit="return validate('article_img', 'Type');">
 
       <!-- Image upload -->
       <div class="col-md-4">
@@ -95,10 +95,10 @@
               echo "<div class='alert alert-danger'>$error_msg</div>";
             }
           ?>
-          <h6>(This is optional)</h6>
+          <h6>(Required)</h6>
           <label for="image_input" style="margin-bottom: 1rem;">Images can be no larger than 2 MB.</label>
           <div class="input-group mb-3">
-              <input type="file" class="form-control" id="image_input" accept="image/jpeg, image/png, image/jpg" name="article_img">
+              <input type="file" class="form-control" id="image_input" name="article_img">
             </div>
           <div class="img-container">
             <!-- <input type="file" id="image_input" accept="image/jpeg, image/png, image/jpg" name="article_img"> -->
@@ -112,7 +112,6 @@
 
   <!-- Attribute selection -->
   <div class="col-md-8" id="scroll-Div" style="padding-bottom: 2rem;">
-      <!-- Required attributes -->
       <div class="col-md-6">
         <div class="container spaced-from-tb">
           <div class="container">
@@ -165,7 +164,7 @@
             <hr class="m-2">
 
             <!-- Type Selection -->
-            <h6>Required</h6>
+            <h6>(Required)</h6>
             <p class="mb-2">Type:</p>
             <div class="form-check">
               <input class="form-check-input" type="radio" name="Type" value="Accessory" id="flexRadioAccessory">
@@ -255,6 +254,49 @@
                 <div class="mb-2">
                     <label for="JewelryType" class="form-label">Jewelry Type:</label>
                     <input type="text" class="form-control" id="JewelryType" name="JeweleryType" maxlength="20">
+                </div>
+                <hr class="m-2">
+            </div>
+
+            <!-- Outerwear -->
+            <div class="AttrGroup" id="OuterwearGroup" style="display: none">
+                <!-- Outerwear Type -->
+                <div class="mb-2">
+                    <label for="OuterwearType" class="form-label">Outerwear Type:</label>
+                    <input type="text" class="form-control" id="OuterwearType" name="OuterwearType" maxlength="20">
+                </div>
+                <hr class="m-2">
+                <!-- Outerwear Length -->
+                <div class="mb-2">
+                    <label for="OuterwearLength" class="form-label">Outerwear Length:</label>
+                    <input type="text" class="form-control" id="OuterwearLength" name="OuterwearLength" maxlength="20">
+                </div>
+                <hr class="m-2">
+                <!-- Outerwear Weight -->
+                <div class="mb-2">
+                    <label for="OuterwearWeight" class="form-label">Outerwear Weight:</label>
+                    <input type="text" class="form-control" id="OuterwearWeight" name="OuterwearWeight" maxlength="20">
+                </div>
+                <hr class="m-2">
+            </div>
+
+            <!-- Pants -->
+            <div class="AttrGroup" id="PantsGroup" style="display: none">
+                <!-- Pants Length -->
+                <div class="mb-2">
+                    <label for="PantsLength" class="form-label">Pants Length:</label>
+                    <input type="text" class="form-control" id="PantsLength" name="PantsLength" maxlength="20">
+                </div>
+                <hr class="m-2">
+                <!-- Pants Weight -->
+                <div class="mb-2">
+                    <label for="PantsWeight" class="form-label">Pants Weight:</label>
+                    <input type="text" class="form-control" id="PantsWeight" name="PantsWeight" maxlength="20">
+                </div>
+                <!-- Pants Fit -->
+                <div class="mb-2">
+                    <label for="PantsType" class="form-label">Pants Type:</label>
+                    <input type="text" class="form-control" id="PantsType" name="PantsType" maxlength="20">
                 </div>
                 <hr class="m-2">
             </div>

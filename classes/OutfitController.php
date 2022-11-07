@@ -15,68 +15,36 @@ class OutfitController
 
     public function run()
     {
-        $params = array_merge($_GET, array('test' => 'testvalue'));
-        $new_query_string = http_build_query($params);
+        // $params = array_merge($_GET, array('test' => 'testvalue'));
+        // $new_query_string = http_build_query($params);
         // print_r($_SESSION["command"]);
         switch ($this->command) {
             case "logout":
                 $this->delete_session();
                 session_start();
                 $this->login();
-                $_SESSION["command"] = "logout";
                 break;
             case "login":
                 // print("login");
                 $this->login();
-                $_SESSION["command"] = "login";
                 break;
             case "create_account":
                 $this->create_account();
-                $_SESSION["command"] = "create_account";
                 break;
             case "home":
                 $this->home();
-                $_SESSION["command"] = "home";
                 break;
             case "clothes_home":
                 $this->clothes_home();
-                $_SESSION["command"] = "clothes_home";
                 break;
             case "clothes_add":
                 $this->clothes_add();
-                $_SESSION["command"] = "clothes_add";
                 break;
             case "outfit_home":
                 $this->outfit_home();
-                $_SESSION["command"] = "outfit_home";
                 break;
             default:
-                print("default");
-                switch($_SESSION["command"]) {
-                    case "logout":
-                        $this->delete_session();
-                        session_start();
-                        $this->login();
-                        break;
-                    case "login":
-                        $this->login();
-                        break;
-                    case "create_account":
-                        $this->create_account();
-                        break;
-                    case "home":
-                        $this->home();
-                        break;
-                    case "clothes_home":
-                        $this->clothes_home();
-                        break;
-                    case "outfit_home":
-                        $this->outfit_home();
-                        break;
-                    default:
-                        $this->login();
-                        break;
-                }
+                $this->login();
                 break;
         }
     }
@@ -114,12 +82,12 @@ class OutfitController
                 $style = "select itemID from Clothes_Style where Style like ?";
     
                 $data = $this->db->query("select itemID, image from Clothes
-                where (pattern like ?
+                where UserID = ?
+                and (pattern like ?
                 or primaryColor like ?
                 or material like ?
-                or brand like ?)
-                and UserID = ?
-                and itemID in (
+                or brand like ?
+                or itemID in (
                     " . $accessory . " union
                     " . $dress . " union
                     " . $jewelry . " union
@@ -131,11 +99,10 @@ class OutfitController
                     " . $formality . " union
                     " . $secondaryColor . " union
                     " . $style .
-                ");",
-                "ssssissssssssssssssssssss",
-                $searchString, $searchString, $searchString, $searchString,
-                // this will get replaced with UserID from session
+                "));",
+                "issssssssssssssssssssssss",
                 $_SESSION["UserID"],
+                $searchString, $searchString, $searchString, $searchString,
                 $searchString,
                 $searchString, $searchString, $searchString,
                 $searchString,
@@ -279,22 +246,21 @@ class OutfitController
     }
 
     public function clothes_home() {
-        // display all of the users uploaded clothes
-        $data = $this->db->query("select itemID, image from Clothes where UserID = ?;", "i", $_SESSION["UserID"]);
-        if (sizeof($data) === 0) {
-            $error_msg = "You haven't uploaded any clothes";
-        }
-
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            print_r($_GET);
+        $search = False;
+        if (isset($_GET["search"])) {
+            $search = True;
             // replace black with search string
-            $data = $this->search("black", "Clothes");
+            $data = $this->search($_GET["search"], "Clothes");
             if (sizeof($data) == 0) {
                 $error_msg = "No matching clothes found";
             }
         }
         else {
-            // select all clothes with this UserID and display
+            // display all of the users uploaded clothes
+            $data = $this->db->query("select itemID, image from Clothes where UserID = ?;", "i", $_SESSION["UserID"]);
+            if (sizeof($data) === 0) {
+                $error_msg = "You haven't uploaded any clothes";
+            }
         }
         include("templates/clothes_home.php");
     }
@@ -302,23 +268,16 @@ class OutfitController
     public function clothes_add() {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $filename = "";
-            // print_r($_POST);
             // image uploaded
             if ($_FILES["article_img"]["error"] !== 4) {
-                // $filename = $_FILES["article_img"]["name"];
                 $tempname = $_FILES["article_img"]["tmp_name"];
                 $filename = explode("/", $tempname)[5];
                 $folder = "/Applications/XAMPP/xamppfiles/htdocs/cs4750/OutfitCataloguerV2/images/" . $filename;
             
                 // move the uploaded image into the folder
-                if (copy($tempname, $folder)) {
-                    // echo "<h3> Image uploaded successfully!</h3>";
-                } else {
+                if (!copy($tempname, $folder)) {
                     echo "<h3> Failed to upload image!</h3>";
                 }
-            }
-            else {
-                print("failed");
             }
 
             switch ($_POST["Type"]) {
@@ -345,10 +304,8 @@ class OutfitController
     }
 
     public function outfit_home() {
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            print_r($_GET);
-            // replace black with search string
-            $data = $this->search("casual", "Outfit");
+        if (isset($_GET["search"])) {
+            $data = $this->search($_GET["search"], "Outfit");
             if (sizeof($data) == 0) {
                 $error_msg = "No matching outfits found";
             }

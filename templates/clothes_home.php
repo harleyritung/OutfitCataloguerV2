@@ -79,7 +79,8 @@
             Hello there, <?=$_SESSION["name"]?>!
           </span>
           <form class="d-flex" role="search">
-            <input class="form-control me-2" type="search" name="q" placeholder="Search Your Clothes" aria-label="Search">
+            <input type="hidden" value="clothes_home" name="command">
+            <input class="form-control me-2" type="search" name="search" placeholder="Search Your Clothes" aria-label="Search">
             <button class="btn btn-outline-success" type="submit">Search</button>
           </form>
         </div>
@@ -91,8 +92,14 @@
   <!-- Page content begins -->
   <div class="col-12" id="scroll-Div">
     <div class="container spaced-from-tb">
-      <h1 class="display-6 underlined">Your Clothes</h1>
-      <p></p>
+      <?php 
+      if ($search) { 
+        echo '<h1 class="display-6 underlined">Clothes with "' . $_GET["search"] . '"</h1>'; 
+      }
+      else {
+        echo '<h1 class="display-6 underlined">Your Clothes</h1>';
+      }
+      ?>
       <div class="row justify-content-center">
         <?php
             if (!empty($error_msg)) {

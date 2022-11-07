@@ -26,7 +26,20 @@ function validate() {
 
     // allows button submit if finalret is true, else triggers alert
     if (!finalret) {
-        alert("Please make sure all required fields are filled out before submitting");
+        var reqString = "(";
+        var req = "";
+        for (var i=0; i<arguments.length; i++) {
+            req = arguments[i];
+            if (req === "article_img") {
+                req = "Image";
+            }
+            reqString += req;
+            if (i !== arguments.length - 1) {
+                reqString += ", ";
+            }
+        }
+        reqString += ")"
+        alert("Please make sure all required fields " + reqString + " are filled out before submitting");
     }
     return finalret;
 }

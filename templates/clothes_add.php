@@ -56,7 +56,7 @@
                 <li>
                   <hr class="dropdown-divider">
                 </li>
-                <li><a class="dropdown-item" href="?command=outfit_add">Add Outfits</a></li>
+                <li><a class="dropdown-item" href="?command=outfit_create">Create Outfits</a></li>
               </ul>
             </li>
             <li class="nav-item dropdown">
@@ -82,10 +82,7 @@
   </header> 
 
   <!-- content -->
-  <section>
-    <!-- Upload clothes form -->
-    <form enctype="multipart/form-data" action="?command=clothes_add" method="post" onsubmit="return validate('article_img', 'Type');">
-
+  <div class="row">
       <!-- Image upload -->
       <div class="col-md-4">
         <div class="container spaced-from-tb">
@@ -96,6 +93,8 @@
             }
           ?>
           <h6>(Required)</h6>
+          <!-- Upload clothes form -->
+          <form enctype="multipart/form-data" action="?command=clothes_add" method="post" onsubmit="return validate('article_img', 'Type');">
           <label for="image_input" style="margin-bottom: 1rem;">Images can be no larger than 2 MB.</label>
           <div class="input-group mb-3">
               <input type="file" class="form-control" id="image_input" name="article_img">
@@ -112,10 +111,10 @@
 
   <!-- Attribute selection -->
   <div class="col-md-8" id="scroll-Div" style="padding-bottom: 2rem;">
-      <div class="col-md-6">
-        <div class="container spaced-from-tb">
-          <div class="container">
-            <h1 class="display-6">Generic Item Attributes</h1>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="container spaced-from-tb">
+            <h1 class="display-6 underlined">Generic Item Attributes</h1>
             <hr class="m-2">
 
             <!-- Brand -->
@@ -154,173 +153,171 @@
 
           </div>
         </div>
-      </div>
+      <!-- </div> -->
 
       <!-- Specific item attributes -->
       <div class="col-md-6">
         <div class="container spaced-from-tb">
-          <div class="container">
-            <h1 class="display-6">Specific Item Attributes</h1>
-            <hr class="m-2">
+          <h3 class="display-6 underlined">Specific Item Attributes</h3>
+          <hr class="m-2">
 
-            <!-- Type Selection -->
-            <h6>(Required)</h6>
-            <p class="mb-2">Type:</p>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="Type" value="Accessory" id="flexRadioAccessory">
-              <label class="form-check-label" for="flexRadioAccessory">
-                Accessory
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="Type" value="Dress" id="flexRadioDress">
-              <label class="form-check-label" for="flexRadioDress">
-                Dress
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="Type" value="Jewelry" id="flexRadioJewelry">
-              <label class="form-check-label" for="flexRadioJewelry">
-                Jewelry
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="Type" value="Outerwear" id="flexRadioOuterwear">
-              <label class="form-check-label" for="flexRadioOuterwear">
-                Outerwear
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="Type" value="Pants" id="flexRadioPants">
-              <label class="form-check-label" for="flexRadioPants">
-                Pants
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="Type" value="Shirt" id="flexRadioShirt">
-              <label class="form-check-label" for="flexRadioShirt">
-                Shirt
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="Type" value="Skirt" id="flexRadioSkirt">
-              <label class="form-check-label" for="flexRadioSkirt">
-                Skirt
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="Type" value="Shoes" id="flexRadioShoes">
-              <label class="form-check-label" for="flexRadioShoes">
-                Shoes
-              </label>
-            </div>
-            <hr class="m-2">
+          <!-- Type Selection -->
+          <h6>(Required)</h6>
+          <p class="mb-2">Type:</p>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="Type" value="Accessory" id="flexRadioAccessory">
+            <label class="form-check-label" for="flexRadioAccessory">
+              Accessory
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="Type" value="Dress" id="flexRadioDress">
+            <label class="form-check-label" for="flexRadioDress">
+              Dress
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="Type" value="Jewelry" id="flexRadioJewelry">
+            <label class="form-check-label" for="flexRadioJewelry">
+              Jewelry
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="Type" value="Outerwear" id="flexRadioOuterwear">
+            <label class="form-check-label" for="flexRadioOuterwear">
+              Outerwear
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="Type" value="Pants" id="flexRadioPants">
+            <label class="form-check-label" for="flexRadioPants">
+              Pants
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="Type" value="Shirt" id="flexRadioShirt">
+            <label class="form-check-label" for="flexRadioShirt">
+              Shirt
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="Type" value="Skirt" id="flexRadioSkirt">
+            <label class="form-check-label" for="flexRadioSkirt">
+              Skirt
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="Type" value="Shoes" id="flexRadioShoes">
+            <label class="form-check-label" for="flexRadioShoes">
+              Shoes
+            </label>
+          </div>
+          <hr class="m-2">
 
-            <!-- Accessory -->
-            <div class="AttrGroup" id="AccessoryGroup" style="display: none">
-                <!-- Accessory Type -->
-                <div class="mb-2">
-                    <label for="AccessoryType" class="form-label">Accessory Type:</label>
-                    <input type="text" class="form-control" id="AccessoryType" name="AccessoryType" maxlength="20">
-                </div>
-                <hr class="m-2">
-            </div>
+          <!-- Accessory -->
+          <div class="AttrGroup" id="AccessoryGroup" style="display: none">
+              <!-- Accessory Type -->
+              <div class="mb-2">
+                  <label for="AccessoryType" class="form-label">Accessory Type:</label>
+                  <input type="text" class="form-control" id="AccessoryType" name="AccessoryType" maxlength="20">
+              </div>
+              <hr class="m-2">
+          </div>
 
-            <!-- Dress -->
-            <div class="AttrGroup" id="DressGroup" style="display: none">
-                <!-- Dress Type -->
-                <div class="mb-2">
-                    <label for="DressType" class="form-label">Dress Type:</label>
-                    <input type="text" class="form-control" id="DressType" name="DressType" maxlength="20">
-                </div>
-                <hr class="m-2">
-                <!-- Dress Length -->
-                <div class="mb-2">
-                    <label for="DressLength" class="form-label">Dress Length:</label>
-                    <input type="text" class="form-control" id="DressLength" name="DressLength" maxlength="20">
-                </div>
-                <hr class="m-2">
-                <!-- Dress Sleeve Length -->
-                <div class="mb-2">
-                    <label for="DressSleeveLength" class="form-label">Dress Sleeve Length:</label>
-                    <input type="text" class="form-control" id="DressSleeveLength" name="DressSleeveLength" maxlength="20">
-                </div>
-                <hr class="m-2">
-            </div>
+          <!-- Dress -->
+          <div class="AttrGroup" id="DressGroup" style="display: none">
+              <!-- Dress Type -->
+              <div class="mb-2">
+                  <label for="DressType" class="form-label">Dress Type:</label>
+                  <input type="text" class="form-control" id="DressType" name="DressType" maxlength="20">
+              </div>
+              <hr class="m-2">
+              <!-- Dress Length -->
+              <div class="mb-2">
+                  <label for="DressLength" class="form-label">Dress Length:</label>
+                  <input type="text" class="form-control" id="DressLength" name="DressLength" maxlength="20">
+              </div>
+              <hr class="m-2">
+              <!-- Dress Sleeve Length -->
+              <div class="mb-2">
+                  <label for="DressSleeveLength" class="form-label">Dress Sleeve Length:</label>
+                  <input type="text" class="form-control" id="DressSleeveLength" name="DressSleeveLength" maxlength="20">
+              </div>
+              <hr class="m-2">
+          </div>
 
-            <!-- Jewelry -->
-            <div class="AttrGroup" id="JewelryGroup" style="display: none">
-                <!-- Jewelry Type -->
-                <div class="mb-2">
-                    <label for="JewelryType" class="form-label">Jewelry Type:</label>
-                    <input type="text" class="form-control" id="JewelryType" name="JeweleryType" maxlength="20">
-                </div>
-                <hr class="m-2">
-            </div>
+          <!-- Jewelry -->
+          <div class="AttrGroup" id="JewelryGroup" style="display: none">
+              <!-- Jewelry Type -->
+              <div class="mb-2">
+                  <label for="JewelryType" class="form-label">Jewelry Type:</label>
+                  <input type="text" class="form-control" id="JewelryType" name="JeweleryType" maxlength="20">
+              </div>
+              <hr class="m-2">
+          </div>
 
-            <!-- Outerwear -->
-            <div class="AttrGroup" id="OuterwearGroup" style="display: none">
-                <!-- Outerwear Type -->
-                <div class="mb-2">
-                    <label for="OuterwearType" class="form-label">Outerwear Type:</label>
-                    <input type="text" class="form-control" id="OuterwearType" name="OuterwearType" maxlength="20">
-                </div>
-                <hr class="m-2">
-                <!-- Outerwear Length -->
-                <div class="mb-2">
-                    <label for="OuterwearLength" class="form-label">Outerwear Length:</label>
-                    <input type="text" class="form-control" id="OuterwearLength" name="OuterwearLength" maxlength="20">
-                </div>
-                <hr class="m-2">
-                <!-- Outerwear Weight -->
-                <div class="mb-2">
-                    <label for="OuterwearWeight" class="form-label">Outerwear Weight:</label>
-                    <input type="text" class="form-control" id="OuterwearWeight" name="OuterwearWeight" maxlength="20">
-                </div>
-                <hr class="m-2">
-            </div>
+          <!-- Outerwear -->
+          <div class="AttrGroup" id="OuterwearGroup" style="display: none">
+              <!-- Outerwear Type -->
+              <div class="mb-2">
+                  <label for="OuterwearType" class="form-label">Outerwear Type:</label>
+                  <input type="text" class="form-control" id="OuterwearType" name="OuterwearType" maxlength="20">
+              </div>
+              <hr class="m-2">
+              <!-- Outerwear Length -->
+              <div class="mb-2">
+                  <label for="OuterwearLength" class="form-label">Outerwear Length:</label>
+                  <input type="text" class="form-control" id="OuterwearLength" name="OuterwearLength" maxlength="20">
+              </div>
+              <hr class="m-2">
+              <!-- Outerwear Weight -->
+              <div class="mb-2">
+                  <label for="OuterwearWeight" class="form-label">Outerwear Weight:</label>
+                  <input type="text" class="form-control" id="OuterwearWeight" name="OuterwearWeight" maxlength="20">
+              </div>
+              <hr class="m-2">
+          </div>
 
-            <!-- Pants -->
-            <div class="AttrGroup" id="PantsGroup" style="display: none">
-                <!-- Pants Length -->
-                <div class="mb-2">
-                    <label for="PantsLength" class="form-label">Pants Length:</label>
-                    <input type="text" class="form-control" id="PantsLength" name="PantsLength" maxlength="20">
-                </div>
-                <hr class="m-2">
-                <!-- Pants Weight -->
-                <div class="mb-2">
-                    <label for="PantsWeight" class="form-label">Pants Weight:</label>
-                    <input type="text" class="form-control" id="PantsWeight" name="PantsWeight" maxlength="20">
-                </div>
-                <!-- Pants Fit -->
-                <div class="mb-2">
-                    <label for="PantsType" class="form-label">Pants Type:</label>
-                    <input type="text" class="form-control" id="PantsType" name="PantsType" maxlength="20">
-                </div>
-                <hr class="m-2">
-            </div>
+          <!-- Pants -->
+          <div class="AttrGroup" id="PantsGroup" style="display: none">
+              <!-- Pants Length -->
+              <div class="mb-2">
+                  <label for="PantsLength" class="form-label">Pants Length:</label>
+                  <input type="text" class="form-control" id="PantsLength" name="PantsLength" maxlength="20">
+              </div>
+              <hr class="m-2">
+              <!-- Pants Weight -->
+              <div class="mb-2">
+                  <label for="PantsWeight" class="form-label">Pants Weight:</label>
+                  <input type="text" class="form-control" id="PantsWeight" name="PantsWeight" maxlength="20">
+              </div>
+              <!-- Pants Fit -->
+              <div class="mb-2">
+                  <label for="PantsType" class="form-label">Pants Type:</label>
+                  <input type="text" class="form-control" id="PantsType" name="PantsType" maxlength="20">
+              </div>
+              <hr class="m-2">
+          </div>
 
-            <!-- Skirt -->
-            <div class="AttrGroup" id="SkirtGroup" style="display: none">
-                <!-- Skirt Type -->
-                <div class="mb-2">
-                    <label for="SkirtType" class="form-label">Skirt Type:</label>
-                    <input type="text" class="form-control" id="SkirtType" name="SkirtType" maxlength="20">
-                </div>
-                <hr class="m-2">
-                <!-- Skirt Length-->
-                <div class="mb-2">
-                    <label for="SkirtLength" class="form-label">Skirt Length:</label>
-                    <input type="text" class="form-control" id="SkirtLength" name="SkirtLength" maxlength="20">
-                </div>
-                <hr class="m-2">
-            </div>
+          <!-- Skirt -->
+          <div class="AttrGroup" id="SkirtGroup" style="display: none">
+              <!-- Skirt Type -->
+              <div class="mb-2">
+                  <label for="SkirtType" class="form-label">Skirt Type:</label>
+                  <input type="text" class="form-control" id="SkirtType" name="SkirtType" maxlength="20">
+              </div>
+              <hr class="m-2">
+              <!-- Skirt Length-->
+              <div class="mb-2">
+                  <label for="SkirtLength" class="form-label">Skirt Length:</label>
+                  <input type="text" class="form-control" id="SkirtLength" name="SkirtLength" maxlength="20">
+              </div>
+              <hr class="m-2">
           </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
 
   <footer>
     <nav class="navbar fixed-bottom navbar-light bg-light" aria-label="breadcrumb">

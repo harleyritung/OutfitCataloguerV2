@@ -59,10 +59,10 @@ table {
 }
 
 /* for mobile phones: */
-[class*="col-"] {
+/* [class*="col-"] {
     float: left;
     width: 100%;
-}
+} */
 
 /* for mobile phones and tablets: */
 @media only screen and (max-width: 768px) {
@@ -106,6 +106,22 @@ body {
     font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
+nav {
+    font-size: large;
+}
+
+
+img{
+	margin: 5px;
+	width: 200px;
+	/* height: 250px; */
+}
+
+.subheader {
+    font-family: "Helvetica Neue"; 
+    font-weight: 400;
+}
+
 /* anchor styling */
 .active-link {
     color: black;
@@ -131,6 +147,8 @@ body {
 
 .img-thumbnail {
     margin: 0.25rem;
+    /* max-width: 100px; */
+    /* max-height: 100px; */
 }
 
 .img-thumbnail:hover {
@@ -162,11 +180,7 @@ body {
 
 /* upload and edit clothing submit button */
 .submit-button {
-    text-align: center;
-    margin-left: 25%;
-    border-radius: 2px;
-    padding: 5px;
-    background-color: transparent;
+    margin: 0 25% auto;
 }
 
 .submit-button:hover {
@@ -199,8 +213,9 @@ body {
 	padding: 5px;
 	margin: 15px;
 }
-img{
-	margin: 5px;
-	width: 350px;
-	height: 250px;
+
+#outfit-container {
+    border: 1px solid black;
+    border-radius: 0.5em;
+    padding: 1em;
 }

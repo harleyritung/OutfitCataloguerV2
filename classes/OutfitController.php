@@ -43,6 +43,9 @@ class OutfitController
             case "outfit_home":
                 $this->outfit_home();
                 break;
+            case "outfit_create":
+                $this->outfit_create();
+                break;
             default:
                 $this->login();
                 break;
@@ -102,15 +105,14 @@ class OutfitController
                 "));",
                 "issssssssssssssssssssssss",
                 $_SESSION["UserID"],
-                $searchString, $searchString, $searchString, $searchString,
-                $searchString,
-                $searchString, $searchString, $searchString,
-                $searchString,
+                $searchString, $searchString, $searchString, 
                 $searchString, $searchString, $searchString,
                 $searchString, $searchString, $searchString,
                 $searchString, $searchString, $searchString,
-                $searchString, $searchString,
-                $searchString, $searchString, $searchString, $searchString
+                $searchString, $searchString, $searchString,
+                $searchString, $searchString, $searchString,
+                $searchString, $searchString, $searchString,
+                $searchString, $searchString, $searchString 
                 );
             }
 
@@ -125,7 +127,7 @@ class OutfitController
                 outfitName = ? or
                 formality = ?);",
                 "isss",
-                3, $searchString, $searchString, $searchString
+                $_SESSION["UserID"], $searchString, $searchString, $searchString
                 );
                 // find all of the itemIDs for each of the outfits
                 foreach ($outfitIDs[0] as $outfitID) {
@@ -310,6 +312,61 @@ class OutfitController
                 $error_msg = "No matching outfits found";
             }
         }
+        else {
+            $data = array();
+            // display all of the users uploaded outfits
+            $itemIDs = array();
+            // get outfits for the user
+            $outfitIDs = $this->db->query("select outfitID from Outfit where UserID = ?;", "i", $_SESSION["UserID"]);
+            // print_r($outfitIDs);
+            if (sizeof($outfitIDs) !== 0) {
+                // find all of the itemIDs for each of the outfits
+                foreach ($outfitIDs[0] as $outfitID) {
+                    print($outfitID);
+                    $itemID = $this->db->query("select itemID from MakeUp where outfitID = ? and UserID = ?;", 
+                    "ii", 
+                    $outfitID, 3
+                    );
+                    print_r($itemID);
+                    array_push($itemIDs, $itemID);
+                    $outfit = array();
+                    // get the images from Clothes for the itemIDs
+                    foreach ($itemIDs[0][0] as $itemID) {
+                        print($itemID);
+                        $item = $this->db->query("select itemID, image from Clothes where itemID = ? and UserID = ?;", 
+                        "ii",
+                        $itemID, 3
+                        );
+                        array_push($outfit, $item);
+                    }
+                    array_push($data, $outfit);
+                    $itemIDs = array();
+                }
+            }
+            else {
+                $error_msg = "You haven't saved any outfits";
+            }
+        }
         include("templates/outfit_home.php");
+    }
+
+    public function outfit_create() {
+        $search = False;
+        if (isset($_GET["search"])) {
+            $search = True;
+            // replace black with search string
+            $data = $this->search($_GET["search"], "Clothes");
+            if (sizeof($data) == 0) {
+                $error_msg = "No matching clothes found";
+            }
+        }
+        else {
+            // display all of the users uploaded clothes
+            $data = $this->db->query("select itemID, image from Clothes where UserID = ?;", "i", $_SESSION["UserID"]);
+            if (sizeof($data) === 0) {
+                $error_msg = "You haven't uploaded any clothes";
+            }
+        }
+        include("templates/outfit_create.php");
     }
 }

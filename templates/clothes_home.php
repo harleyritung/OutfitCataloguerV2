@@ -58,7 +58,7 @@
                 <li>
                   <hr class="dropdown-divider">
                 </li>
-                <li><a class="dropdown-item" href="?command=outfit_add">Add Outfits</a></li>
+                <li><a class="dropdown-item" href="?command=outfit_create">Create Outfits</a></li>
               </ul>
             </li>
             <li class="nav-item dropdown">
@@ -110,7 +110,9 @@
       <?php
         foreach ($data as $image) {
       ?>
-        <img src="./images/<?php echo $image['image']; ?>">
+        <a href="#" class="image-link">
+            <img src="./images/<?php echo $image['image']; ?>" alt="150x150 grey image placeholder box." class="img-thumbnail">
+          </a>
         <?php
         }
       ?>

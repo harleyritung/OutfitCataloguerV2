@@ -18,6 +18,7 @@
   <!-- Bootstrap -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
     integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
 </head>
 
 <body>
@@ -79,76 +80,111 @@
             Hello there, <?=$_SESSION["name"]?>!
           </span>
           <form class="d-flex" role="search">
-            <input class="form-control me-2" type="search" name="q" placeholder="Search Your Clothes" aria-label="Search">
+            <input type="hidden" value="clothes_home" name="command">
+            <input class="form-control me-2" type="search" name="search" placeholder="Search Your Clothes" aria-label="Search">
             <button class="btn btn-outline-success" type="submit">Search</button>
           </form>
         </div>
       </div>
     </nav>
+  </header> 
 
-    <!-- Page navbar -->
-    <!-- <div class="container-fluid">
-      <ul class="nav nav-tabs justify-content-center">
-        <li class="nav-item page-nav-item">
-          <a class="nav-link" href="?command=clothes_home">Your Clothes</a>
-        </li>
-        <li class="nav-item page-nav-item">
-          <a class="nav-link" href="?command=outfit_home">Your Outfits</a>
-        </li>
-        </li>
-      </ul>
-    </div> -->
-  </header>
 
-<!-- Page content begins -->
-<div class="col-12" id="scroll-Div">
+  <!-- Page content begins -->
+  <div class="col-md-12" id="scroll-Div">
     <div class="container spaced-from-tb">
       <?php 
-      if ($search) { 
-        echo '<h1 class="display-6 underlined">Clothes with "' . $_GET["search"] . '"</h1>'; 
-      }
-      else {
-        echo '<h1 class="display-6 underlined">Your Clothes</h1>';
-      }
+          if ($search) { 
+              echo '<h1 class="display-4 underlined">Clothes with "' . $_GET["search"] . '"</h1>'; 
+          }
+          else {
+              echo '<h1 class="display-4 underlined">Create an Outfit</h1>';
+          }
       ?>
-      <div class="row justify-content-center">
+      <div class="row">
+      <div class="col-md-9">
+        <h3 class="subheader">Click to Add Clothes to Outfit</h3>
+        <div class="row justify-content-center">
+            <?php
+                if (!empty($error_msg)) {
+                    echo "<div class='alert alert-warning'>$error_msg</div>";
+                }
+            ?>
+        </div>
         <?php
-            if (!empty($error_msg)) {
-                echo "<div class='alert alert-warning'>$error_msg</div>";
+            foreach ($data as $image) {
+        ?>
+            <a id="<?=$image['itemID']?>" class="image-link" role="button">
+                <img src="./images/<?php echo $image['image']; ?>" class="img-thumbnail">
+            </a>
+            <?php
             }
         ?>
       </div>
-      <?php
-        foreach ($data as $image) {
-      ?>
-        <a href="#" class="image-link">
-            <img src="./images/<?php echo $image['image']; ?>" alt="150x150 grey image placeholder box." class="img-thumbnail">
-          </a>
-        <?php
-        }
-      ?>
+      <div class="col-md-3" id="outfit-container">
+        <h3 class="subheader">Your Outfit</h3>
+        <form action="?command=outfit_home" method="post" id="outfit-form">
+          
+        </form>
+      </div>
+      </div>
+
     </div>
   </div>
-    
 
   <footer>
     <!-- Bottom nav -->
     <nav class="navbar fixed-bottom navbar-light bg-light" aria-label="breadcrumb">
       <div class="container-fluid" style="padding-top: 0.5rem;">
         <!-- Breadcrumb -->
-        <div class="container-fluid" style="padding-top: 0.5rem;">
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="?command=home">Home</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Your Outfits</li>
-          </ol>
-        </div>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="?command=home">Home</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Create Outfits</li>
+        </ol>
       </div>
     </nav>
   </footer>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
     integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
     crossorigin="anonymous"></script>
-  <script src="js/main.js"></script>
+  <script type="text/javascript" src="js/main.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.1.slim.min.js" integrity="sha256-w8CvhFs7iHNVUtnSP0YKEg00p9Ih13rlL9zGqvLdePA=" crossorigin="anonymous"></script>
+  <script type="text/javascript">
+    // make a function to add to imgs in outfit builder that removes them when clicked
+    // function here
+
+
+    
+    var anchor;
+    var img;
+    var src;
+    var input;
+    var input_num = 0;
+    // move item image to outfit builder when clicked
+    $(".image-link").each(
+      function () {
+        anchor = $(this);
+        anchor.on("click", function () {
+          // get img src
+          src = $(this).children(":first").attr("src");
+          // create new img element
+          img = $('<img>')
+          .attr('src', src)
+          .addClass("img-thumbnail");
+          // create hidden input for img
+          input = $('<input>')
+          .attr('type', 'hidden')
+          .attr('name', input_num)
+          .attr('value', $(this).attr('id'));
+          // put img and input in outfit form
+          $("#outfit-form").append(img);
+          $("#outfit-form").append(input);
+          // increment num of hidden inputs
+          input_num++;
+        });
+      }
+    );
+  </script>
 </body>
 
 </html>

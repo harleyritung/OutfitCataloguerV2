@@ -58,7 +58,7 @@
                 <li>
                   <hr class="dropdown-divider">
                 </li>
-                <li><a class="dropdown-item" href="?command=outfit_add">Add Outfits</a></li>
+                <li><a class="dropdown-item" href="?command=outfit_create">Create Outfits</a></li>
               </ul>
             </li>
             <li class="nav-item dropdown">
@@ -81,19 +81,6 @@
         </div>
       </div>
     </nav>
-
-    <!-- Page navbar -->
-    <!-- <div class="container-fluid">
-      <ul class="nav nav-tabs justify-content-center">
-        <li class="nav-item page-nav-item">
-          <a class="nav-link" href="?command=clothes_home">Your Clothes</a>
-        </li>
-        <li class="nav-item page-nav-item">
-          <a class="nav-link" href="?command=outfit_home">Your Outfits</a>
-        </li>
-        </li>
-      </ul>
-    </div> -->
   </header>
 
   <!-- Page content begins -->

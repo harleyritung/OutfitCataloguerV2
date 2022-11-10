@@ -16,3 +16,7 @@ if (isset($_GET["command"])) {
 // Instantiate the controller and run
 $controller = new OutfitController($command);
 $controller->run();
+
+
+// <meta http-equiv="refresh" content='0; url=login.php'
+?>

@@ -352,7 +352,11 @@ class OutfitController
 
     public function outfit_create() {
         $search = False;
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            print_r($_POST);
+        }
         if (isset($_GET["search"])) {
+            print("search");
             $search = True;
             // replace black with search string
             $data = $this->search($_GET["search"], "Clothes");

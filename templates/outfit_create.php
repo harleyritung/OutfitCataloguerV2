@@ -80,7 +80,7 @@
             Hello there, <?=$_SESSION["name"]?>!
           </span>
           <form class="d-flex" role="search">
-            <input type="hidden" value="clothes_home" name="command">
+            <input type="hidden" value="outfit_create" name="command">
             <input class="form-control me-2" type="search" name="search" placeholder="Search Your Clothes" aria-label="Search">
             <button class="btn btn-outline-success" type="submit">Search</button>
           </form>
@@ -114,17 +114,28 @@
         <?php
             foreach ($data as $image) {
         ?>
-            <a id="<?=$image['itemID']?>" class="image-link" role="button">
-                <img src="./images/<?php echo $image['image']; ?>" class="img-thumbnail">
-            </a>
+              <img src="./images/<?php echo $image['image']; ?>" id="<?=$image['itemID']?>" class="img-thumbnail old-img">
             <?php
             }
         ?>
       </div>
       <div class="col-md-3" id="outfit-container">
         <h3 class="subheader">Your Outfit</h3>
-        <form action="?command=outfit_home" method="post" id="outfit-form">
-          
+        <form action="?command=outfit_create" method="post" id="outfit-form">
+          <!-- Images and hidden inputs get inserted here with JS -->
+          <div class="mb-2">
+            <label for="Name" class="form-label">Outfit Name:</label>
+            <input type="text" class="form-control" id="Name" name="Name" maxlength="30">
+          </div>
+          <div class="mb-2">
+            <label for="Formality" class="form-label">Formality:</label>
+            <input type="text" class="form-control" id="Formality" name="Formality" maxlength="20">
+          </div>
+          <div class="mb-2">
+            <label for="Season" class="form-label">Season:</label>
+            <input type="text" class="form-control" id="Season" name="Season" maxlength="10">
+          </div>
+          <button class="btn btn-primary submit-button">Save Outfit</button>
         </form>
       </div>
       </div>
@@ -150,40 +161,50 @@
   <script type="text/javascript" src="js/main.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.1.slim.min.js" integrity="sha256-w8CvhFs7iHNVUtnSP0YKEg00p9Ih13rlL9zGqvLdePA=" crossorigin="anonymous"></script>
   <script type="text/javascript">
-    // make a function to add to imgs in outfit builder that removes them when clicked
-    // function here
-
-
-    
-    var anchor;
-    var img;
-    var src;
-    var input;
-    var input_num = 0;
-    // move item image to outfit builder when clicked
-    $(".image-link").each(
-      function () {
-        anchor = $(this);
-        anchor.on("click", function () {
-          // get img src
-          src = $(this).children(":first").attr("src");
-          // create new img element
-          img = $('<img>')
-          .attr('src', src)
-          .addClass("img-thumbnail");
-          // create hidden input for img
-          input = $('<input>')
-          .attr('type', 'hidden')
-          .attr('name', input_num)
-          .attr('value', $(this).attr('id'));
-          // put img and input in outfit form
-          $("#outfit-form").append(img);
-          $("#outfit-form").append(input);
-          // increment num of hidden inputs
-          input_num++;
-        });
+    // maintains list of unused input ids
+    var unusedIDs = [];
+    for (var i=0; i < $('.old-img').length; ++i) {
+      unusedIDs.push(i);
+    }
+    // listens to clicks on clothes list images
+    $(document).on('click', '.old-img', function() {
+      // only add image if has not been added yet
+      if ($('.'+$(this).attr('id')).length === 0) {
+        // create new img element
+        var newImg = $('<img>')
+        .attr('src', $(this).attr('src'))
+        .attr('id', $(this).attr('id'))
+        .addClass("img-thumbnail")
+        .addClass("new-img");
+        // get unusedID
+        console.log('before remove: '+unusedIDs);
+        var input_num = unusedIDs.shift();
+        console.log("removed id: "+unusedIDs);
+        // create hidden input for img
+        var input = $('<input>')
+        .attr('type', 'hidden')
+        .attr('name', input_num)
+        .attr('value', $(this).attr('id'))
+        .addClass($(this).attr('id'))
+        .addClass('hidden');
+        // put img and input in outfit form
+        $("#outfit-form").append(newImg);
+        $("#outfit-form").append(input);
       }
-    );
+    });
+
+    // listens to clicks on images in outfit being built
+    $(document).on('click', '.new-img', function() {
+      var id = $(this).attr('id');
+      // remove hidden input element
+      var unusedID = $('.' + id).attr('name');
+      $('.' + id).remove();
+      // remove img element
+      $(this).remove();
+      unusedIDs.push(unusedID);
+      unusedIDs.sort();
+      console.log('sorted: '+unusedIDs);
+    });
   </script>
 </body>
 

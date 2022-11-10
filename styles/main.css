@@ -155,10 +155,6 @@ img{
     filter: brightness(75%);
 }
 
-.image-link {
-    text-decoration: none;
-}
-
 /* file drag and drop */
 .drop-zone {
     border: 1px solid black;
@@ -180,7 +176,7 @@ img{
 
 /* upload and edit clothing submit button */
 .submit-button {
-    margin: 0 25% auto;
+    margin: 0 30% auto;
 }
 
 .submit-button:hover {

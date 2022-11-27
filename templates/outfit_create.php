@@ -112,12 +112,12 @@
             ?>
         </div>
         <?php
-            foreach ($data as $image) {
+          foreach ($data as $image) {
         ?>
-              <img src="./images/<?php echo $image['image']; ?>" id="<?=$image['itemID']?>" class="img-thumbnail old-img">
-            <?php
+            <img src="./images/<?php echo $image['image']; ?>" id="<?=$image['itemID']?>" class="img-thumbnail old-img" alt="Article image failed to load">
+          <?php
             }
-        ?>
+          ?>
       </div>
       <div class="col-md-3" id="outfit-container">
         <h3 class="subheader">Your Outfit</h3>

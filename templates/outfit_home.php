@@ -121,8 +121,8 @@
       <?php
         foreach ($data as $image) {
       ?>
-        <a href="#" class="image-link">
-            <img src="./images/<?php echo $image['image']; ?>" alt="150x150 grey image placeholder box." class="img-thumbnail">
+        <a class="image-link">
+            <img src="./images/<?php echo $image['image']; ?>" alt="Article image failed to load" class="img-thumbnail">
           </a>
         <?php
         }

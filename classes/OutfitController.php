@@ -37,6 +37,12 @@ class OutfitController
             case "clothes_home":
                 $this->clothes_home();
                 break;
+            case "clothes_detail":
+                $this->clothes_detail();
+                break;
+            case "clothes_delete":
+                $this->clothes_delete();
+                break;
             case "clothes_add":
                 $this->clothes_add();
                 break;
@@ -76,10 +82,10 @@ class OutfitController
                 where ShirtLength like ?
                 or ShirtSleeveLength like ?
                 or ShirtType like ?";
+                $shoes = "select itemID from Shoes where ShoesType like ?";
                 $skirt = "select itemID from Skirt 
                 where SkirtLength like ?
                 or SkirtType like ?";
-                $shoes = "select itemID from Shoes where ShoesType like ?";
                 $formality = "select itemID from clothes_Formality where Formality like ?";
                 $secondaryColor = "select itemID from Clothes_SecondaryColor where secondaryColor like ?";
                 $style = "select itemID from Clothes_Style where Style like ?";
@@ -264,8 +270,114 @@ class OutfitController
                 $error_msg = "You haven't uploaded any clothes";
             }
         }
+        // if item was clicked on
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            // save item ID of item that was clicked on
+            $_SESSION['itemID'] = $_POST['itemID'];
+            header("Location: ?command=clothes_detail");
+        }
         include("templates/clothes_home.php");
     }
+
+    public function clothes_detail() {
+        // pulls data from Clothes table for item
+        $clothes_table_data = $this->db->query("select * from Clothes where itemID = ?;", "i", $_SESSION['itemID'])[0];
+        $image_name = $clothes_table_data['image'];
+        $brand = $clothes_table_data['brand'];
+        $material = $clothes_table_data['material'];
+        $pattern = $clothes_table_data['pattern'];
+        $primaryColor = $clothes_table_data['primaryColor'];
+
+        // finds the article type table that this item belongs to
+        $article_types = array('Accessory', 'Dress', 'Jewelry', 'Outerwear', 'Pants', 'Shirt', 'Shoes', 'Skirt');
+        $i = 0;
+        $specific_table_data = array();
+        // loops through tables until one contains this itemID
+        while (sizeof($specific_table_data) === 0 and $i < sizeof($article_types)) {
+            $table = $article_types[$i];
+            $specific_table_data = $this->db->query("select * from $table where itemID=?;", "i", $_SESSION['itemID']);
+            $i++;
+        }
+        $specific_table_data = $specific_table_data[0];
+
+        // store specific table attrs
+        next($specific_table_data);
+        $attr_1 = current($specific_table_data);
+        next($specific_table_data);
+        $attr_2 = current($specific_table_data);
+        next($specific_table_data);
+        $attr_3 = current($specific_table_data);
+
+        // if update button is clicked
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            // image uploaded
+            if ($_FILES["article_img"]["error"] !== 4) {
+                // DELETE OLD FILE HERE!!!!
+
+
+                print('file uploaded');
+                $tempname = $_FILES["article_img"]["tmp_name"];
+                $image_name = explode("/", $tempname)[5];
+                $folder = "/Applications/XAMPP/xamppfiles/htdocs/cs4750/OutfitCataloguerV2/images/" . $image_name;
+            
+                // move the uploaded image into the folder
+                if (!copy($tempname, $folder)) {
+                    echo "<h3> Failed to upload image!</h3>";
+                }
+            }
+
+            // update Clothes table
+            $this->db->query("update Clothes set image=?, brand=?, material=?, pattern=?, primaryColor=? where itemID=?;",
+            "sssssi",
+            $image_name,
+            $_POST["Brand"],
+            $_POST["Material"],
+            $_POST["Pattern"],
+            $_POST["PrimaryColor"],
+            $_SESSION["itemID"]
+            );
+
+            // update specific clothes item table
+            switch ($table) {
+                case "Skirt":
+                    $this->db->query("update Skirt set SkirtType=?, SkirtLength=? where itemID=?;",
+                    "ssi",
+                    $_POST["SkirtType"],
+                    $_POST["SkirtLength"],
+                    $_SESSION["itemID"]
+                    );
+                    break;
+                default:
+                    print("default");
+                    break;
+            }
+            header("Location: ?command=clothes_home");
+        }
+
+        include("templates/clothes_detail.php");
+    }
+
+    public function clothes_delete() {
+        // delete item from Clothes
+        $this->db->query("delete from Clothes where itemID=?;", "i", $_SESSION["itemID"]);
+
+        // finds the article type table that this item belongs to
+        $article_types = array('Accessory', 'Dress', 'Jewelry', 'Outerwear', 'Pants', 'Shirt', 'Shoes', 'Skirt');
+        $i = 0;
+        $specific_table_data = array();
+        // loops through tables until one contains this itemID
+        while (sizeof($specific_table_data) === 0 and $i < sizeof($article_types)) {
+            $table = $article_types[$i];
+            $specific_table_data = $this->db->query("select * from $table where itemID=?;", "i", $_SESSION['itemID']);
+            $i++;
+        }
+
+        // delete item from specific clothes item table
+        $this->db->query("delete from $table where itemID=?;", "i", $_SESSION["itemID"]);
+
+        header("Location: ?command=clothes_home");
+    }
+
 
     public function clothes_add() {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -283,6 +395,100 @@ class OutfitController
             }
 
             switch ($_POST["Type"]) {
+                case "Accessory":
+                    $this->db->query("call InsertAccessory(?, ?, ?, ?, ?, ?, ?);",
+                    "ssssssi",
+                    $_POST["Pattern"],
+                    $_POST["PrimaryColor"],
+                    $_POST["Material"],
+                    $filename,
+                    $_POST["Brand"],
+                    $_POST["AccessoryType"],
+                    $_SESSION["UserID"]
+                    );
+                    break;
+                case "Dress":
+                    $this->db->query("call InsertDress(?, ?, ?, ?, ?, ?, ?, ?, ?);",
+                    "ssssssssi",
+                    $_POST["Pattern"],
+                    $_POST["PrimaryColor"],
+                    $_POST["Material"],
+                    $filename,
+                    $_POST["Brand"],
+                    $_POST["DressLength"],
+                    $_POST["DressSleeveLength"],
+                    $_POST["DressType"],
+                    $_SESSION["UserID"]
+                    );
+                    break;
+                case "Jewelry":
+                    $this->db->query("call InsertJewelry(?, ?, ?, ?, ?, ?, ?);",
+                    "ssssssi",
+                    $_POST["Pattern"],
+                    $_POST["PrimaryColor"],
+                    $_POST["Material"],
+                    $filename,
+                    $_POST["Brand"],
+                    $_POST["JewelryType"],
+                    $_SESSION["UserID"]
+                    );
+                    break;
+                case "Outerwear":
+                    $this->db->query("call InsertOuterwear(?, ?, ?, ?, ?, ?, ?, ?, ?);",
+                    "ssssssssi",
+                    $_POST["Pattern"],
+                    $_POST["PrimaryColor"],
+                    $_POST["Material"],
+                    $filename,
+                    $_POST["Brand"],
+                    $_POST["OuterwearLength"],
+                    $_POST["OuterwearWeight"],
+                    $_POST["OuterwearType"],
+                    $_SESSION["UserID"]
+                    );
+                    break;
+                case "Pants":
+                    $this->db->query("call InsertPants(?, ?, ?, ?, ?, ?, ?, ?, ?);",
+                    "ssssssssi",
+                    $_POST["Pattern"],
+                    $_POST["PrimaryColor"],
+                    $_POST["Material"],
+                    $filename,
+                    $_POST["Brand"],
+                    $_POST["PantsLength"],
+                    $_POST["PantsWeight"],
+                    $_POST["PantsFit"],
+                    $_SESSION["UserID"]
+                    );
+                    break;
+                case "Shirt":
+                    $this->db->query("call InsertShirt(?, ?, ?, ?, ?, ?, ?, ?, ?);",
+                    "ssssssssi",
+                    $_POST["Pattern"],
+                    $_POST["PrimaryColor"],
+                    $_POST["Material"],
+                    $filename,
+                    $_POST["Brand"],
+                    $_POST["ShirtLength"],
+                    $_POST["ShirtSleeveLength"],
+                    $_POST["ShirtType"],
+                    $_SESSION["UserID"]
+                    );
+                    break;
+                case "Shoes":
+                    $this->db->query("call InsertDress(?, ?, ?, ?, ?, ?, ?, ?, ?);",
+                    "ssssssssi",
+                    $_POST["Pattern"],
+                    $_POST["PrimaryColor"],
+                    $_POST["Material"],
+                    $filename,
+                    $_POST["Brand"],
+                    $_POST["DressLength"],
+                    $_POST["DressSleeveLength"],
+                    $_POST["DressType"],
+                    $_SESSION["UserID"]
+                    );
+                    break;
                 case "Skirt":
                     $this->db->query("call InsertSkirt(?, ?, ?, ?, ?, ?, ?, ?);",
                     "sssssssi",
@@ -308,7 +514,7 @@ class OutfitController
     public function outfit_home() {
         if (isset($_GET["search"])) {
             $data = $this->search($_GET["search"], "Outfit");
-            if (sizeof($data) == 0) {
+            if (sizeof($data) === 0) {
                 $error_msg = "No matching outfits found";
             }
         }
@@ -354,6 +560,7 @@ class OutfitController
         $search = False;
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             print_r($_POST);
+            $postArr = $_POST;
         }
         if (isset($_GET["search"])) {
             print("search");

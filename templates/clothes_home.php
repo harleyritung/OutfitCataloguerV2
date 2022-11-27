@@ -81,7 +81,7 @@
           <form class="d-flex" role="search">
             <input type="hidden" value="clothes_home" name="command">
             <input class="form-control me-2" type="search" name="search" placeholder="Search Your Clothes" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
+            <button class="btn btn-outline-dark " type="submit">Search</button>
           </form>
         </div>
       </div>
@@ -110,9 +110,12 @@
       <?php
         foreach ($data as $image) {
       ?>
-        <a href="#" class="image-link">
-            <img src="./images/<?php echo $image['image']; ?>" alt="150x150 grey image placeholder box." class="img-thumbnail">
-          </a>
+          <form action="?command=clothes_home" method='post' style='display: inline'> 
+            <button style="border: none; background: none; padding: 0">
+              <img src="./images/<?php echo $image['image']; ?>" alt="Article image failed to load" class="img-thumbnail">
+              <input type='hidden' name='itemID' value="<?=$image['itemID']?>">
+            </button>
+          </form>
         <?php
         }
       ?>

@@ -64,34 +64,34 @@ class OutfitController
             // search in Clothes table
             // returns a 2D array of the itemIDs and image paths for all of the clothes matching the search
             if ($table === "Clothes") {
-                $accessory = "select itemID from Accessory where AccessoryType like ?";
-                $dress = "select itemID from Dress 
-                where DressLength like ?
+                $accessory = "SELECT itemID FROM Accessory WHERE AccessoryType like ?";
+                $dress = "SELECT itemID FROM Dress 
+                WHERE DressLength like ?
                 or DressSleeveLength like ?
                 or DressType like ?";
-                $jewelry ="select itemID from Jewelry where jewelryType like ?";
-                $outerwear = "select itemID from Outerwear 
-                where OuterwearLength like ?
+                $jewelry ="SELECT itemID FROM Jewelry WHERE jewelryType like ?";
+                $outerwear = "SELECT itemID FROM Outerwear 
+                WHERE OuterwearLength like ?
                 or OuterwearWeight like ?
                 or OuterWearType like ?";
-                $pants = "select itemID from Pants 
-                where PantsLength like ?
+                $pants = "SELECT itemID FROM Pants 
+                WHERE PantsLength like ?
                 or PantsWeight like ?
                 or PantsFit like ?";
-                $shirt = "select itemID from Shirt 
-                where ShirtLength like ?
+                $shirt = "SELECT itemID FROM Shirt 
+                WHERE ShirtLength like ?
                 or ShirtSleeveLength like ?
                 or ShirtType like ?";
-                $shoes = "select itemID from Shoes where ShoesType like ?";
-                $skirt = "select itemID from Skirt 
-                where SkirtLength like ?
+                $shoes = "SELECT itemID FROM Shoes WHERE ShoesType like ?";
+                $skirt = "SELECT itemID FROM Skirt 
+                WHERE SkirtLength like ?
                 or SkirtType like ?";
-                $formality = "select itemID from clothes_Formality where Formality like ?";
-                $secondaryColor = "select itemID from Clothes_SecondaryColor where secondaryColor like ?";
-                $style = "select itemID from Clothes_Style where Style like ?";
+                $formality = "SELECT itemID FROM clothes_Formality WHERE Formality like ?";
+                $secondaryColor = "SELECT itemID FROM Clothes_SecondaryColor WHERE secondaryColor like ?";
+                $style = "SELECT itemID FROM Clothes_Style WHERE Style like ?";
     
-                $data = $this->db->query("select itemID, image from Clothes
-                where UserID = ?
+                $data = $this->db->query("SELECT itemID, image FROM Clothes
+                WHERE UserID = ?
                 and (pattern like ?
                 or primaryColor like ?
                 or material like ?
@@ -127,8 +127,8 @@ class OutfitController
             else if ($table === "Outfit") {
                 // find outfitIDs matching search
                 $itemIDs = array();
-                $outfitIDs = $this->db->query("select outfitID from Outfit
-                where UserID = ? and
+                $outfitIDs = $this->db->query("SELECT outfitID FROM Outfit
+                WHERE UserID = ? and
                 (season = ? or
                 outfitName = ? or
                 formality = ?);",
@@ -138,17 +138,17 @@ class OutfitController
                 // find all of the itemIDs for each of the outfits
                 foreach ($outfitIDs[0] as $outfitID) {
                     print($outfitID);
-                    $itemID = $this->db->query("select itemID from MakeUp where outfitID = ? and UserID = ?;", 
+                    $itemID = $this->db->query("SELECT itemID FROM MakeUp WHERE outfitID = ? and UserID = ?;", 
                     "ii", 
                     $outfitID, 3
                     );
                     print_r($itemID);
                     array_push($itemIDs, $itemID);
                     $outfit = array();
-                    // get the images from Clothes for the itemIDs
+                    // get the images FROM Clothes for the itemIDs
                     foreach ($itemIDs[0][0] as $itemID) {
                         print($itemID);
-                        $item = $this->db->query("select itemID, image from Clothes where itemID = ? and UserID = ?;", 
+                        $item = $this->db->query("SELECT itemID, image FROM Clothes WHERE itemID = ? and UserID = ?;", 
                         "ii",
                         $itemID, 3
                         );
@@ -173,7 +173,7 @@ class OutfitController
     private function login()
     {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $data = $this->db->query("select * from User where email_address = ?;", "s", $_POST["email_address"]);
+            $data = $this->db->query("SELECT * FROM User WHERE email_address = ?;", "s", $_POST["email_address"]);
             if ($data === false) {
                 $error_msg = "Error checking for user";
             } else if (!empty($data)) {
@@ -197,7 +197,7 @@ class OutfitController
     public function create_account()
     {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $data = $this->db->query("select * from User where email_address = ?;", "s", $_POST["email_address"]);
+            $data = $this->db->query("SELECT * FROM User WHERE email_address = ?;", "s", $_POST["email_address"]);
             if ($data === false) {
                 $error_msg = "Error checking for user";
             }
@@ -213,7 +213,7 @@ class OutfitController
                     // password meets requirements
                     if (preg_match($pw_regex, $_POST["password1"]) === 1) {
                         $insert = $this->db->query(
-                            "insert into User (name, password, email_address) values (?, ?, ?);",
+                            "INSERT into User (name, password, email_address) values (?, ?, ?);",
                             "sss",
                             $_POST["name"],
                             password_hash($_POST["password1"], PASSWORD_DEFAULT),
@@ -222,7 +222,7 @@ class OutfitController
                         if ($insert === false) {
                             $error_msg = "Error inserting user";
                         } else {
-                            $data = $this->db->query("select * from User where email_address = ?;", "s", $_POST["email_address"]);
+                            $data = $this->db->query("SELECT * FROM User WHERE email_address = ?;", "s", $_POST["email_address"]);
                             $_SESSION["name"] = $_POST["name"];
                             $_SESSION["email_address"] = $_POST["email_address"];
                             $_SESSION["UserID"] = $data[0]["UserID"];
@@ -246,7 +246,7 @@ class OutfitController
     public function home()
     {
         // check if any rows in outfits for this user, then display them or say no outfits created
-        $outfits = $this->db->query("select * from Outfit where UserID = ?;", "i", $_SESSION["UserID"]);
+        $outfits = $this->db->query("SELECT * FROM Outfit WHERE UserID = ?;", "i", $_SESSION["UserID"]);
         if (empty($data)) {
             $error_msg = "You haven't created any outfits.";
         }
@@ -265,7 +265,7 @@ class OutfitController
         }
         else {
             // display all of the users uploaded clothes
-            $data = $this->db->query("select itemID, image from Clothes where UserID = ?;", "i", $_SESSION["UserID"]);
+            $data = $this->db->query("SELECT itemID, image FROM Clothes WHERE UserID = ?;", "i", $_SESSION["UserID"]);
             if (sizeof($data) === 0) {
                 $error_msg = "You haven't uploaded any clothes";
             }
@@ -280,8 +280,8 @@ class OutfitController
     }
 
     public function clothes_detail() {
-        // pulls data from Clothes table for item
-        $clothes_table_data = $this->db->query("select * from Clothes where itemID = ?;", "i", $_SESSION['itemID'])[0];
+        // pulls data FROM Clothes table for item
+        $clothes_table_data = $this->db->query("SELECT * FROM Clothes WHERE itemID = ?;", "i", $_SESSION['itemID'])[0];
         $image_name = $clothes_table_data['image'];
         $brand = $clothes_table_data['brand'];
         $material = $clothes_table_data['material'];
@@ -295,7 +295,7 @@ class OutfitController
         // loops through tables until one contains this itemID
         while (sizeof($specific_table_data) === 0 and $i < sizeof($article_types)) {
             $table = $article_types[$i];
-            $specific_table_data = $this->db->query("select * from $table where itemID=?;", "i", $_SESSION['itemID']);
+            $specific_table_data = $this->db->query("SELECT * FROM $table WHERE itemID=?;", "i", $_SESSION['itemID']);
             $i++;
         }
         $specific_table_data = $specific_table_data[0];
@@ -327,7 +327,7 @@ class OutfitController
             }
 
             // update Clothes table
-            $this->db->query("update Clothes set image=?, brand=?, material=?, pattern=?, primaryColor=? where itemID=?;",
+            $this->db->query("UPDATE Clothes set image=?, brand=?, material=?, pattern=?, primaryColor=? WHERE itemID=?;",
             "sssssi",
             $image_name,
             $_POST["Brand"],
@@ -340,7 +340,7 @@ class OutfitController
             // update specific clothes item table
             switch ($table) {
                 case "Skirt":
-                    $this->db->query("update Skirt set SkirtType=?, SkirtLength=? where itemID=?;",
+                    $this->db->query("update Skirt set SkirtType=?, SkirtLength=? WHERE itemID=?;",
                     "ssi",
                     $_POST["SkirtType"],
                     $_POST["SkirtLength"],
@@ -358,8 +358,8 @@ class OutfitController
     }
 
     public function clothes_delete() {
-        // delete item from Clothes
-        $this->db->query("delete from Clothes where itemID=?;", "i", $_SESSION["itemID"]);
+        // delete item FROM Clothes
+        $this->db->query("DELETE FROM Clothes WHERE itemID=?;", "i", $_SESSION["itemID"]);
 
         // finds the article type table that this item belongs to
         $article_types = array('Accessory', 'Dress', 'Jewelry', 'Outerwear', 'Pants', 'Shirt', 'Shoes', 'Skirt');
@@ -368,12 +368,12 @@ class OutfitController
         // loops through tables until one contains this itemID
         while (sizeof($specific_table_data) === 0 and $i < sizeof($article_types)) {
             $table = $article_types[$i];
-            $specific_table_data = $this->db->query("select * from $table where itemID=?;", "i", $_SESSION['itemID']);
+            $specific_table_data = $this->db->query("SELECT * FROM $table WHERE itemID=?;", "i", $_SESSION['itemID']);
             $i++;
         }
 
-        // delete item from specific clothes item table
-        $this->db->query("delete from $table where itemID=?;", "i", $_SESSION["itemID"]);
+        // delete item FROM specific clothes item table
+        $this->db->query("DELETE FROM $table WHERE itemID=?;", "i", $_SESSION["itemID"]);
 
         header("Location: ?command=clothes_home");
     }
@@ -396,7 +396,7 @@ class OutfitController
 
             switch ($_POST["Type"]) {
                 case "Accessory":
-                    $this->db->query("call InsertAccessory(?, ?, ?, ?, ?, ?, ?);",
+                    $this->db->query("CALL InsertAccessory(?, ?, ?, ?, ?, ?, ?);",
                     "ssssssi",
                     $_POST["Pattern"],
                     $_POST["PrimaryColor"],
@@ -408,7 +408,7 @@ class OutfitController
                     );
                     break;
                 case "Dress":
-                    $this->db->query("call InsertDress(?, ?, ?, ?, ?, ?, ?, ?, ?);",
+                    $this->db->query("CALL InsertDress(?, ?, ?, ?, ?, ?, ?, ?, ?);",
                     "ssssssssi",
                     $_POST["Pattern"],
                     $_POST["PrimaryColor"],
@@ -422,7 +422,7 @@ class OutfitController
                     );
                     break;
                 case "Jewelry":
-                    $this->db->query("call InsertJewelry(?, ?, ?, ?, ?, ?, ?);",
+                    $this->db->query("CALL InsertJewelry(?, ?, ?, ?, ?, ?, ?);",
                     "ssssssi",
                     $_POST["Pattern"],
                     $_POST["PrimaryColor"],
@@ -434,7 +434,7 @@ class OutfitController
                     );
                     break;
                 case "Outerwear":
-                    $this->db->query("call InsertOuterwear(?, ?, ?, ?, ?, ?, ?, ?, ?);",
+                    $this->db->query("CALL InsertOuterwear(?, ?, ?, ?, ?, ?, ?, ?, ?);",
                     "ssssssssi",
                     $_POST["Pattern"],
                     $_POST["PrimaryColor"],
@@ -448,7 +448,7 @@ class OutfitController
                     );
                     break;
                 case "Pants":
-                    $this->db->query("call InsertPants(?, ?, ?, ?, ?, ?, ?, ?, ?);",
+                    $this->db->query("CALL InsertPants(?, ?, ?, ?, ?, ?, ?, ?, ?);",
                     "ssssssssi",
                     $_POST["Pattern"],
                     $_POST["PrimaryColor"],
@@ -462,7 +462,7 @@ class OutfitController
                     );
                     break;
                 case "Shirt":
-                    $this->db->query("call InsertShirt(?, ?, ?, ?, ?, ?, ?, ?, ?);",
+                    $this->db->query("CALL InsertShirt(?, ?, ?, ?, ?, ?, ?, ?, ?);",
                     "ssssssssi",
                     $_POST["Pattern"],
                     $_POST["PrimaryColor"],
@@ -476,21 +476,19 @@ class OutfitController
                     );
                     break;
                 case "Shoes":
-                    $this->db->query("call InsertDress(?, ?, ?, ?, ?, ?, ?, ?, ?);",
-                    "ssssssssi",
+                    $this->db->query("CALL InsertShoes(?, ?, ?, ?, ?, ?, ?);",
+                    "ssssssi",
                     $_POST["Pattern"],
                     $_POST["PrimaryColor"],
                     $_POST["Material"],
                     $filename,
                     $_POST["Brand"],
-                    $_POST["DressLength"],
-                    $_POST["DressSleeveLength"],
-                    $_POST["DressType"],
+                    $_POST["ShoesType"],
                     $_SESSION["UserID"]
                     );
                     break;
                 case "Skirt":
-                    $this->db->query("call InsertSkirt(?, ?, ?, ?, ?, ?, ?, ?);",
+                    $this->db->query("CALL InsertSkirt(?, ?, ?, ?, ?, ?, ?, ?);",
                     "sssssssi",
                     $_POST["Pattern"],
                     $_POST["PrimaryColor"],
@@ -523,23 +521,23 @@ class OutfitController
             // display all of the users uploaded outfits
             $itemIDs = array();
             // get outfits for the user
-            $outfitIDs = $this->db->query("select outfitID from Outfit where UserID = ?;", "i", $_SESSION["UserID"]);
+            $outfitIDs = $this->db->query("SELECT outfitID FROM Outfit WHERE UserID = ?;", "i", $_SESSION["UserID"]);
             // print_r($outfitIDs);
             if (sizeof($outfitIDs) !== 0) {
                 // find all of the itemIDs for each of the outfits
                 foreach ($outfitIDs[0] as $outfitID) {
                     print($outfitID);
-                    $itemID = $this->db->query("select itemID from MakeUp where outfitID = ? and UserID = ?;", 
+                    $itemID = $this->db->query("SELECT itemID FROM MakeUp WHERE outfitID = ? and UserID = ?;", 
                     "ii", 
                     $outfitID, 3
                     );
                     print_r($itemID);
                     array_push($itemIDs, $itemID);
                     $outfit = array();
-                    // get the images from Clothes for the itemIDs
+                    // get the images FROM Clothes for the itemIDs
                     foreach ($itemIDs[0][0] as $itemID) {
                         print($itemID);
-                        $item = $this->db->query("select itemID, image from Clothes where itemID = ? and UserID = ?;", 
+                        $item = $this->db->query("SELECT itemID, image FROM Clothes WHERE itemID = ? and UserID = ?;", 
                         "ii",
                         $itemID, 3
                         );
@@ -560,7 +558,27 @@ class OutfitController
         $search = False;
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             print_r($_POST);
-            $postArr = $_POST;
+
+            // insert into Outfit table using generated outfitID
+            $this->db->query("CALL InsertOutfit(?, ?, ?, ?);",
+            "sssi",
+            $_POST["Season"],
+            $_POST["Name"],
+            $_POST["Formality"],
+            $_SESSION["UserID"]
+            );
+
+            // get that outfitID from the table
+            $outfitID = current($this->db->query("SELECT MAX(outfitID) FROM Outfit WHERE UserID=?;", "i", $_SESSION["UserID"])[0]);
+            // $outfitID = $this->db->query("SELECT MAX(outfitID) + 1 FROM Outfit WHERE UserID=?;", "i", $_SESSION["UserID"]);
+            print_r($outfitID);
+
+            // use outfitID to insert each item into MakeUp table
+            for ($i = 0; $i < sizeof($_POST) - 3; $i++) {
+                print($_POST[$i]);
+                $this->db->query("INSERT INTO MakeUp VALUES (?, ?, ?);", "iii", $_SESSION["UserID"], $outfitID, $_POST[$i]);
+            }
+
         }
         if (isset($_GET["search"])) {
             print("search");
@@ -573,7 +591,7 @@ class OutfitController
         }
         else {
             // display all of the users uploaded clothes
-            $data = $this->db->query("select itemID, image from Clothes where UserID = ?;", "i", $_SESSION["UserID"]);
+            $data = $this->db->query("SELECT itemID, image FROM Clothes WHERE UserID = ?;", "i", $_SESSION["UserID"]);
             if (sizeof($data) === 0) {
                 $error_msg = "You haven't uploaded any clothes";
             }

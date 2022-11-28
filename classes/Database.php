@@ -13,8 +13,17 @@ class Database {
     public function query($query, $bparam=null, ...$params) {
         $stmt = $this->mysqli->prepare($query);
 
-        if ($bparam != null)
+        if ($bparam != null) {
+            // surround string parameters with quotes to prevent spaces from being removed
+            for ($i = 0; $i < sizeof($params); $i++) {
+                // if param is a string and not an image file name
+                if ($bparam[$i] === "s" && (substr($params[$i], 0, 3) !== "php")) {
+                    // surround string with double quotes
+                    $params[$i] = '"'.$params[$i].'"';
+                }
+            }
             $stmt->bind_param($bparam, ...$params);
+        }
 
         if (!$stmt->execute()) {
             return false;

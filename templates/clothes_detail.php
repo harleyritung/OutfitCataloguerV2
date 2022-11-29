@@ -108,7 +108,7 @@
           <!-- delete button -->
           <a class="btn btn-danger" href="?command=clothes_delete" style="margin: 0 15% auto;">Delete Item</a>
           <!-- upload button -->
-          <button class="btn btn-primary" type="submit">Update Item</button>
+          <button class="btn btn-primary" type="submit">Save Item</button>
         </div>
       </div>
 

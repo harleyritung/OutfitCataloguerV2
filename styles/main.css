@@ -146,7 +146,7 @@ img{
 }
 
 .img-thumbnail {
-    margin: 0.25rem;
+    /* margin: 0.25rem; */
     /* max-width: 100px; */
     /* max-height: 100px; */
 }
@@ -214,4 +214,14 @@ img{
     border: 1px solid black;
     border-radius: 0.5em;
     padding: 1em;
+}
+
+.outfit-title {
+    font-size: x-large;
+}
+
+.outfit-button {
+    border-radius: 10px; 
+    background: none; 
+    margin: 15px 0;
 }

@@ -108,7 +108,8 @@
         ?>
       </div>
       <?php
-        foreach ($data as $image) {
+        for (end($data); key($data)!==null; prev($data)) {
+          $image = current($data);
       ?>
           <form action="?command=clothes_home" method='post' style='display: inline'> 
             <button style="border: none; background: none; padding: 0">

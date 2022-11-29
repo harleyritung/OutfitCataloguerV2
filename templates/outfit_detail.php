@@ -98,7 +98,7 @@
               echo '<h1 class="display-4 underlined">Clothes with "' . $_GET["search"] . '"</h1>'; 
           }
           else {
-              echo '<h1 class="display-4 underlined">Create an Outfit</h1>';
+              echo '<h1 class="display-4 underlined">Edit Outfit</h1>';
           }
       ?>
       <div class="row">
@@ -180,9 +180,7 @@
         .addClass("img-thumbnail")
         .addClass("new-img");
         // get unusedID
-        console.log('before remove: '+unusedIDs);
         var input_num = unusedIDs.shift();
-        console.log("removed id: "+unusedIDs);
         // create hidden input for img
         var input = $('<input>')
         .attr('type', 'hidden')
@@ -206,7 +204,6 @@
       $(this).remove();
       unusedIDs.push(unusedID);
       unusedIDs.sort();
-      console.log('sorted: '+unusedIDs);
     });
   </script>
 </body>

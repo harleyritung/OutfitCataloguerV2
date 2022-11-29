@@ -85,19 +85,6 @@
         </div>
       </div>
     </nav>
-
-    <!-- Page navbar -->
-    <!-- <div class="container-fluid">
-      <ul class="nav nav-tabs justify-content-center">
-        <li class="nav-item page-nav-item">
-          <a class="nav-link" href="?command=clothes_home">Your Clothes</a>
-        </li>
-        <li class="nav-item page-nav-item">
-          <a class="nav-link" href="?command=outfit_home">Your Outfits</a>
-        </li>
-        </li>
-      </ul>
-    </div> -->
   </header>
 
 <!-- Page content begins -->
@@ -119,20 +106,25 @@
         ?>
       </div>
       <?php
-        // loop through outfits
-        foreach ($data as $outfit) {
+        // loop through outfits so newest are at the top
+        for (end($data); key($data)!==null; prev($data)) {
+          $outfit = current($data);
       ?>
           <form action="?command=outfit_home" method='post'> 
-          <button style="border: none; background: none; padding: 0">
+          <button class="outfit-button">
+          <div class="row justify-content-center">
+            <span class="outfit-title">Outfit Name: <?=$outfit[1]?></span>
+          </div>
+
           <?php
             // display each image in outfit
-            foreach ($outfit as $image) {
+            foreach (array_slice($outfit, 2) as $image) {
           ?>
-              <img src="./images/<?=$image?>" alt="Article image failed to load" class="img-thumbnail">
+              <img src="./images/<?=$image?>" alt="Article image failed to load">
             <?php
             }
           ?>
-            <input type='hidden' name='outfitID' value="">
+            <input type='hidden' name='outfitID' value=<?=$outfit[0]?>>
           </button>
           </form>
         <?php

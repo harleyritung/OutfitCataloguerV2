@@ -510,19 +510,19 @@ class OutfitController
             // loop through all the secondary colors
             if (!empty($_POST["SecondaryColor"])) {
                 foreach($_POST["SecondaryColor"] as &$secondary) {
-                    $this->db->query("CALL AddSecondaryColor($secondary)")
+                    $this->db->query("CALL AddSecondaryColor($secondary)");
                 }
             }
             // loop through all the formalities
             if (!empty($_POST["Formality"])) {
                 foreach($_POST["Formality"] as &$formal) {
-                    $this->db->query("CALL AddFormality($formal)")
+                    $this->db->query("CALL AddFormality($formal)");
                 }
             }
             // loop through all the styles
             if (!empty($_POST["Style"])) {
                 foreach($_POST["Style"] as &$style) {
-                    $this->db->query("CALL AddStyle($style)")
+                    $this->db->query("CALL AddStyle($style)");
                 }
             }
 

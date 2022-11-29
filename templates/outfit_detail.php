@@ -111,6 +111,7 @@
                 }
             ?>
         </div>
+        <!-- displays all clothes in wardrobe -->
         <?php
           for (end($data); key($data)!==null; prev($data)) {
             $image = current($data);
@@ -120,10 +121,12 @@
             }
           ?>
       </div>
+
+      <!-- outfit form -->
       <div class="col-md-3">
         <div id="outfit-container">
             <h3 class="subheader">Your Outfit</h3>
-            <form action="?command=outfit_create" method="post" id="outfit-form">
+            <form action="?command=outfit_detail" method="post" id="outfit-form">
                 <!-- Images and hidden inputs get inserted here with JS -->
                 <div class="mb-2">
                 <label for="Name" class="form-label">Outfit Name:</label>
@@ -137,6 +140,8 @@
                 <label for="Season" class="form-label">Season:</label>
                 <input type="text" class="form-control" id="Season" name="Season" maxlength="20" value=<?=$season?>>
                 </div>
+                <a class="btn btn-danger" href="?command=outfit_delete" style="margin: 0 5% auto;">Delete Outfit</a>
+                <button class="btn btn-primary">Save Outfit</button>
                 <?php
                   for ($i = 0; $i < sizeof($outfitItems); $i++) {
                 ?>
@@ -145,7 +150,6 @@
                   <?php
                     }
                   ?>
-                <button class="btn btn-primary submit-button">Save Outfit</button>
             </form>
             </div>
         </div>
@@ -179,8 +183,6 @@
     }
     // listens to clicks on clothes list images
     $(document).on('click', '.old-img', function() {
-      console.log("old click");
-      console.log("click"); 
       // only add image if has not been added yet
       if ($('.'+$(this).attr('id')).length === 0) {
         // create new img element

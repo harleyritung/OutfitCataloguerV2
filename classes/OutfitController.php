@@ -48,6 +48,9 @@ class OutfitController
             case "outfit_detail":
                 $this->outfit_detail();
                 break;
+            case "outfit_delete":
+                $this->outfit_delete();
+                break;
             case "outfit_create":
                 $this->outfit_create();
                 break;
@@ -138,7 +141,8 @@ class OutfitController
                 foreach ($outfitIDs[0] as $outfitID) {
                     $itemID = $this->db->query("SELECT itemID FROM MakeUp WHERE outfitID = ? AND UserID = ?;", 
                     "ii", 
-                    $outfitID, 3
+                    $outfitID,
+                    $_SESSION["UserID"]
                     );
                     array_push($itemIDs, $itemID);
                     $outfit = array();
@@ -146,7 +150,8 @@ class OutfitController
                     foreach ($itemIDs[0][0] as $itemID) {
                         $item = $this->db->query("SELECT itemID, image FROM Clothes WHERE itemID = ? AND UserID = ?;", 
                         "ii",
-                        $itemID, 3
+                        $itemID,
+                        $_SESSION["UserID"]
                         );
                         array_push($outfit, $item);
                     }
@@ -277,7 +282,11 @@ class OutfitController
 
     public function clothes_detail() {
         // pulls data FROM Clothes table for item
-        $clothes_table_data = $this->db->query("SELECT * FROM Clothes WHERE itemID = ?;", "i", $_SESSION['itemID'])[0];
+        $clothes_table_data = $this->db->query("SELECT * FROM Clothes WHERE itemID = ? AND UserID=?;", 
+        "ii", 
+        $_SESSION['itemID'],
+        $_SESSION["UserID"]
+        )[0];
         $image_name = $clothes_table_data['image'];
         $brand = $clothes_table_data['brand'];
         $material = $clothes_table_data['material'];
@@ -291,7 +300,11 @@ class OutfitController
         // loops through tables until one contains this itemID
         while (sizeof($specific_table_data) === 0 && $i < sizeof($article_types)) {
             $table = $article_types[$i];
-            $specific_table_data = $this->db->query("SELECT * FROM $table WHERE itemID=?;", "i", $_SESSION['itemID']);
+            $specific_table_data = $this->db->query("SELECT * FROM $table WHERE itemID=? AND UserID=?;", 
+            "ii", 
+            $_SESSION['itemID'],
+            $_SESSION["UserID"]
+            );
             $i++;
         }
         $specific_table_data = $specific_table_data[0];
@@ -322,7 +335,7 @@ class OutfitController
             }
 
             // update Clothes table
-            $this->db->query("UPDATE Clothes set image=?, brand=?, material=?, pattern=?, primaryColor=? WHERE itemID=?;",
+            $this->db->query("UPDATE Clothes SET image=?, brand=?, material=?, pattern=?, primaryColor=? WHERE itemID=?;",
             "sssssi",
             $image_name,
             $_POST["Brand"],
@@ -363,7 +376,11 @@ class OutfitController
         // loops through tables until one contains this itemID
         while (sizeof($specific_table_data) === 0 && $i < sizeof($article_types)) {
             $table = $article_types[$i];
-            $specific_table_data = $this->db->query("SELECT * FROM $table WHERE itemID=?;", "i", $_SESSION['itemID']);
+            $specific_table_data = $this->db->query("SELECT * FROM $table WHERE itemID=? AND UserID=?;", 
+            "ii", 
+            $_SESSION['itemID'],
+            $_SESSION["UserID"]
+            );
             $i++;
         }
 
@@ -614,28 +631,43 @@ class OutfitController
             )[0];
             array_push($outfitItems, $item);
         }
-        print_r($outfitItems);
+        // print_r($outfitItems);
 
         // save outfit button clicked
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            // insert into Outfit table using generated outfitID
-            $this->db->query("CALL InsertOutfit(?, ?, ?, ?);",
-            "sssi",
+            print_r($_POST);
+
+            // update Outfit table with new attributes
+            $this->db->query("UPDATE Outfit SET season=?, outfitName=?, formality=? WHERE outfitID=? AND UserID=?;",
+            "sssii",
             $_POST["Season"],
             $_POST["Name"],
             $_POST["Formality"],
+            $_SESSION["outfitID"],
             $_SESSION["UserID"]
             );
 
-            // get that outfitID from the table
-            $outfitID = current($this->db->query("SELECT MAX(outfitID) FROM Outfit WHERE UserID=?;", "i", $_SESSION["UserID"])[0]);
+            // delete items from MakeUp table
+            $itemIDs = $this->db->query("DELETE FROM MakeUp WHERE outfitID = ? AND UserID = ?;", 
+            "ii", 
+            $_SESSION["outfitID"],
+            $_SESSION["UserID"]
+            );
 
             // use outfitID to insert each item into MakeUp table
             for ($i = 0; $i < sizeof($_POST) - 3; $i++) {
-                $this->db->query("INSERT INTO MakeUp VALUES (?, ?, ?);", "iii", $_SESSION["UserID"], $outfitID, $_POST[$i]);
+                $this->db->query("INSERT INTO MakeUp VALUES (?, ?, ?);", 
+                "iii", 
+                $_SESSION["UserID"], 
+                $_SESSION["outfitID"], 
+                $_POST[$i]
+                );
             }
+            header("Location: ?command=outfit_home");
 
         }
+
+
 
         // get all matching search results
         if (isset($_GET["search"])) {
@@ -656,6 +688,23 @@ class OutfitController
         include("templates/outfit_detail.php");
     }
 
+    public function outfit_delete() {
+        // delete items from MakeUp table
+        $itemIDs = $this->db->query("DELETE FROM MakeUp WHERE outfitID = ? AND UserID = ?;", 
+        "ii", 
+        $_SESSION["outfitID"],
+        $_SESSION["UserID"]
+        );
+
+        // delete outfit from Outfit
+        $this->db->query("DELETE FROM Outfit WHERE outfitID=? AND UserID=?;", "ii", 
+        $_SESSION["outfitID"], 
+        $_SESSION["UserID"]
+        );
+
+        header("Location: ?command=outfit_home");
+    }
+
     public function outfit_create() {
         $search = False;
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -670,7 +719,6 @@ class OutfitController
 
             // get that outfitID from the table
             $outfitID = current($this->db->query("SELECT MAX(outfitID) FROM Outfit WHERE UserID=?;", "i", $_SESSION["UserID"])[0]);
-            // $outfitID = $this->db->query("SELECT MAX(outfitID) + 1 FROM Outfit WHERE UserID=?;", "i", $_SESSION["UserID"]);
 
             // use outfitID to insert each item into MakeUp table
             for ($i = 0; $i < sizeof($_POST) - 3; $i++) {

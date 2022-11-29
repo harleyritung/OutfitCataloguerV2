@@ -13,13 +13,18 @@ class Database {
     public function query($query, $bparam=null, ...$params) {
         $stmt = $this->mysqli->prepare($query);
 
+        $query_command = explode(" ", $query)[0];
+
         if ($bparam != null) {
-            // surround string parameters with quotes to prevent spaces from being removed
-            for ($i = 0; $i < sizeof($params); $i++) {
-                // if param is a string and not an image file name
-                if ($bparam[$i] === "s" && (substr($params[$i], 0, 3) !== "php")) {
-                    // surround string with double quotes
-                    $params[$i] = '"'.$params[$i].'"';
+            // if command is insert
+            if ($query_command === "INSERT" or $query_command === "UPDATE") {
+                // surround string parameters with quotes to prevent spaces from being removed
+                for ($i = 0; $i < sizeof($params); $i++) {
+                    // if param is a string and not an image file name
+                    if ($bparam[$i] === "s" && (substr($params[$i], 0, 3) !== "php")) {
+                        // surround string with double quotes
+                        $params[$i] = '"'.$params[$i].'"';
+                    }
                 }
             }
             $stmt->bind_param($bparam, ...$params);

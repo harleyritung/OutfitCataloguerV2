@@ -129,7 +129,7 @@ class OutfitController
             else if ($table === "Outfit") {
                 // find outfitIDs matching search
                 $itemIDs = array();
-                $outfitIDs = $this->db->query("SELECT outfitID FROM Outfit
+                $outfitIDs = $this->db->query("SELECT outfitID, outfitName FROM Outfit
                 WHERE UserID = ? AND
                 (season = ? or
                 outfitName = ? or
@@ -138,25 +138,31 @@ class OutfitController
                 $_SESSION["UserID"], $searchString, $searchString, $searchString
                 );
                 // find all of the itemIDs for each of the outfits
-                foreach ($outfitIDs[0] as $outfitID) {
-                    $itemID = $this->db->query("SELECT itemID FROM MakeUp WHERE outfitID = ? AND UserID = ?;", 
-                    "ii", 
-                    $outfitID,
-                    $_SESSION["UserID"]
-                    );
-                    array_push($itemIDs, $itemID);
-                    $outfit = array();
-                    // get the images FROM Clothes for the itemIDs
-                    foreach ($itemIDs[0][0] as $itemID) {
-                        $item = $this->db->query("SELECT itemID, image FROM Clothes WHERE itemID = ? AND UserID = ?;", 
-                        "ii",
-                        $itemID,
+                if (sizeof($outfitIDs) !== 0) {
+                    // find all of the itemIDs for each of the outfits
+                    foreach ($outfitIDs as $outfitID) {
+                        // get itemID for item from MakeUp table
+                        $itemIDs = $this->db->query("SELECT itemID FROM MakeUp WHERE outfitID = ? AND UserID = ?;", 
+                        "ii", 
+                        $outfitID["outfitID"],
                         $_SESSION["UserID"]
                         );
-                        array_push($outfit, $item);
+                        $outfit = array();
+                        // add the outfit id to array to retrieve it later when the outfit is clicked
+                        array_push($outfit, $outfitID["outfitID"]);
+                        // add the outfit name to array for it to be displayed
+                        array_push($outfit, substr($outfitID["outfitName"], 1, -1));
+                        // get the images FROM Clothes for the itemIDs
+                        foreach ($itemIDs as $itemID) {
+                            $item = $this->db->query("SELECT image FROM Clothes WHERE itemID = ? AND UserID = ?;", 
+                            "ii",
+                            $itemID["itemID"],
+                            $_SESSION["UserID"]
+                            )[0]["image"];
+                            array_push($outfit, $item);
+                        }
+                        array_push($data, $outfit);
                     }
-                    array_push($data, $outfit);
-                    $itemIDs = array();
                 }
             }
             return $data;

@@ -79,8 +79,9 @@
             Hello there, <?=$_SESSION["name"]?>!
           </span>
           <form class="d-flex" role="search">
-            <input class="form-control me-2" type="search" name="q" placeholder="Search Your Clothes" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
+            <input type="hidden" value="outfit_home" name="command">
+            <input class="form-control me-2" type="search" name="search" placeholder="Search Your Outfits" aria-label="Search">
+            <button class="btn btn-outline-dark " type="submit">Search</button>
           </form>
         </div>
       </div>

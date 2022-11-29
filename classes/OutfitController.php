@@ -15,9 +15,6 @@ class OutfitController
 
     public function run()
     {
-        // $params = array_merge($_GET, array('test' => 'testvalue'));
-        // $new_query_string = http_build_query($params);
-        // print_r($_SESSION["command"]);
         switch ($this->command) {
             case "logout":
                 $this->delete_session();
@@ -25,7 +22,6 @@ class OutfitController
                 $this->login();
                 break;
             case "login":
-                // print("login");
                 $this->login();
                 break;
             case "create_account":
@@ -137,17 +133,14 @@ class OutfitController
                 );
                 // find all of the itemIDs for each of the outfits
                 foreach ($outfitIDs[0] as $outfitID) {
-                    print($outfitID);
                     $itemID = $this->db->query("SELECT itemID FROM MakeUp WHERE outfitID = ? and UserID = ?;", 
                     "ii", 
                     $outfitID, 3
                     );
-                    print_r($itemID);
                     array_push($itemIDs, $itemID);
                     $outfit = array();
                     // get the images FROM Clothes for the itemIDs
                     foreach ($itemIDs[0][0] as $itemID) {
-                        print($itemID);
                         $item = $this->db->query("SELECT itemID, image FROM Clothes WHERE itemID = ? and UserID = ?;", 
                         "ii",
                         $itemID, 3
@@ -255,9 +248,9 @@ class OutfitController
 
     public function clothes_home() {
         $search = False;
+        // display clothes matching search
         if (isset($_GET["search"])) {
             $search = True;
-            // replace black with search string
             $data = $this->search($_GET["search"], "Clothes");
             if (sizeof($data) == 0) {
                 $error_msg = "No matching clothes found";
@@ -315,7 +308,6 @@ class OutfitController
                 // DELETE OLD FILE HERE!!!!
 
 
-                print('file uploaded');
                 $tempname = $_FILES["article_img"]["tmp_name"];
                 $image_name = explode("/", $tempname)[5];
                 $folder = "/Applications/XAMPP/xamppfiles/htdocs/cs4750/OutfitCataloguerV2/images/" . $image_name;
@@ -532,43 +524,43 @@ class OutfitController
     }
 
     public function outfit_home() {
+        $search = false;
+        // display outfits matching search
         if (isset($_GET["search"])) {
+            $search = true;
             $data = $this->search($_GET["search"], "Outfit");
             if (sizeof($data) === 0) {
                 $error_msg = "No matching outfits found";
             }
         }
+        // display all of the users uploaded outfits
         else {
             $data = array();
-            // display all of the users uploaded outfits
-            $itemIDs = array();
             // get outfits for the user
             $outfitIDs = $this->db->query("SELECT outfitID FROM Outfit WHERE UserID = ?;", "i", $_SESSION["UserID"]);
-            // print_r($outfitIDs);
             if (sizeof($outfitIDs) !== 0) {
                 // find all of the itemIDs for each of the outfits
-                foreach ($outfitIDs[0] as $outfitID) {
-                    print($outfitID);
-                    $itemID = $this->db->query("SELECT itemID FROM MakeUp WHERE outfitID = ? and UserID = ?;", 
+                foreach ($outfitIDs as $outfitID) {
+                    // get itemID for item from MakeUp table
+                    $itemIDs = $this->db->query("SELECT itemID FROM MakeUp WHERE outfitID = ? and UserID = ?;", 
                     "ii", 
-                    $outfitID, 3
+                    $outfitID["outfitID"],
+                    $_SESSION["UserID"]
                     );
-                    print_r($itemID);
-                    array_push($itemIDs, $itemID);
                     $outfit = array();
                     // get the images FROM Clothes for the itemIDs
-                    foreach ($itemIDs[0][0] as $itemID) {
-                        print($itemID);
-                        $item = $this->db->query("SELECT itemID, image FROM Clothes WHERE itemID = ? and UserID = ?;", 
+                    foreach ($itemIDs as $itemID) {
+                        $item = $this->db->query("SELECT image FROM Clothes WHERE itemID = ? and UserID = ?;", 
                         "ii",
-                        $itemID, 3
-                        );
+                        $itemID["itemID"],
+                        $_SESSION["UserID"]
+                        )[0]["image"];
                         array_push($outfit, $item);
                     }
                     array_push($data, $outfit);
-                    $itemIDs = array();
                 }
             }
+            // no outfits saved
             else {
                 $error_msg = "You haven't saved any outfits";
             }
@@ -579,8 +571,6 @@ class OutfitController
     public function outfit_create() {
         $search = False;
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            print_r($_POST);
-
             // insert into Outfit table using generated outfitID
             $this->db->query("CALL InsertOutfit(?, ?, ?, ?);",
             "sssi",
@@ -593,19 +583,15 @@ class OutfitController
             // get that outfitID from the table
             $outfitID = current($this->db->query("SELECT MAX(outfitID) FROM Outfit WHERE UserID=?;", "i", $_SESSION["UserID"])[0]);
             // $outfitID = $this->db->query("SELECT MAX(outfitID) + 1 FROM Outfit WHERE UserID=?;", "i", $_SESSION["UserID"]);
-            print_r($outfitID);
 
             // use outfitID to insert each item into MakeUp table
             for ($i = 0; $i < sizeof($_POST) - 3; $i++) {
-                print($_POST[$i]);
                 $this->db->query("INSERT INTO MakeUp VALUES (?, ?, ?);", "iii", $_SESSION["UserID"], $outfitID, $_POST[$i]);
             }
 
         }
         if (isset($_GET["search"])) {
-            print("search");
             $search = True;
-            // replace black with search string
             $data = $this->search($_GET["search"], "Clothes");
             if (sizeof($data) == 0) {
                 $error_msg = "No matching clothes found";

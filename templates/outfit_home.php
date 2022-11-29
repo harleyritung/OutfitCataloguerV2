@@ -105,10 +105,10 @@
     <div class="container spaced-from-tb">
       <?php 
       if ($search) { 
-        echo '<h1 class="display-6 underlined">Clothes with "' . $_GET["search"] . '"</h1>'; 
+        echo '<h1 class="display-6 underlined">Outfits with "' . $_GET["search"] . '"</h1>'; 
       }
       else {
-        echo '<h1 class="display-6 underlined">Your Clothes</h1>';
+        echo '<h1 class="display-6 underlined">Your Outfits</h1>';
       }
       ?>
       <div class="row justify-content-center">
@@ -119,11 +119,22 @@
         ?>
       </div>
       <?php
-        foreach ($data as $image) {
+        // loop through outfits
+        foreach ($data as $outfit) {
       ?>
-        <a class="image-link">
-            <img src="./images/<?php echo $image['image']; ?>" alt="Article image failed to load" class="img-thumbnail">
-          </a>
+          <form action="?command=outfit_home" method='post'> 
+          <button style="border: none; background: none; padding: 0">
+          <?php
+            // display each image in outfit
+            foreach ($outfit as $image) {
+          ?>
+              <img src="./images/<?=$image?>" alt="Article image failed to load" class="img-thumbnail">
+            <?php
+            }
+          ?>
+            <input type='hidden' name='outfitID' value="">
+          </button>
+          </form>
         <?php
         }
       ?>

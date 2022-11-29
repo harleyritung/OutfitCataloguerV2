@@ -607,11 +607,11 @@ class OutfitController
         $outfitItems = array();
         // get the images FROM Clothes for the itemIDs
         foreach ($itemIDs as $itemID) {
-            $item = $this->db->query("SELECT image FROM Clothes WHERE itemID = ? AND UserID = ?;", 
+            $item = $this->db->query("SELECT itemID, image FROM Clothes WHERE itemID = ? AND UserID = ?;", 
             "ii",
             $itemID["itemID"],
             $_SESSION["UserID"]
-            )[0]["image"];
+            )[0];
             array_push($outfitItems, $item);
         }
         print_r($outfitItems);

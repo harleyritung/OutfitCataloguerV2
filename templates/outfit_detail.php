@@ -137,6 +137,14 @@
                 <label for="Season" class="form-label">Season:</label>
                 <input type="text" class="form-control" id="Season" name="Season" maxlength="20" value=<?=$season?>>
                 </div>
+                <?php
+                  for ($i = 0; $i < sizeof($outfitItems); $i++) {
+                ?>
+                    <img src="./images/<?=$outfitItems[$i]['image']?>" id="<?=$outfitItems[$i]['itemID']?>" class="img-thumbnail new-img" alt="Article image failed to load">
+                    <input name="<?=$i?>" value="<?=$outfitItems[$i]['itemID']?>" class="<?=$outfitItems[$i]['itemID']?>" hidden>
+                  <?php
+                    }
+                  ?>
                 <button class="btn btn-primary submit-button">Save Outfit</button>
             </form>
             </div>
@@ -171,6 +179,8 @@
     }
     // listens to clicks on clothes list images
     $(document).on('click', '.old-img', function() {
+      console.log("old click");
+      console.log("click"); 
       // only add image if has not been added yet
       if ($('.'+$(this).attr('id')).length === 0) {
         // create new img element

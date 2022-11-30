@@ -332,7 +332,7 @@ class OutfitController
 
                 $tempname = $_FILES["article_img"]["tmp_name"];
                 $image_name = explode("/", $tempname)[5];
-                $folder = "/Applications/XAMPP/xamppfiles/htdocs/cs4750/OutfitCataloguerV2/images/" . $image_name;
+                $folder = dirname(__DIR__, 1) . "/images/" . $image_name;
             
                 // move the uploaded image into the folder
                 if (!copy($tempname, $folder)) {
@@ -429,9 +429,6 @@ class OutfitController
     }
 
     public function clothes_delete() {
-        // delete item FROM Clothes
-        $this->db->query("DELETE FROM Clothes WHERE itemID=?;", "i", $_SESSION["itemID"]);
-
         // finds the article type table that this item belongs to
         $article_types = array('Accessory', 'Dress', 'Jewelry', 'Outerwear', 'Pants', 'Shirt', 'Shoes', 'Skirt');
         $i = 0;
@@ -448,7 +445,12 @@ class OutfitController
         }
 
         // delete item FROM specific clothes item table
-        $this->db->query("DELETE FROM $table WHERE itemID=?;", "i", $_SESSION["itemID"]);
+        $this->db->query("DELETE FROM $table WHERE itemID=? and UserID=?;", "ii", $_SESSION["itemID"], $_SESSION["UserID"]);
+
+        // delete item FROM Clothes
+        $this->db->query("DELETE FROM Clothes WHERE itemID=? and UserID=?;", "ii", $_SESSION["itemID"], $_SESSION["UserID"]);
+
+
 
         header("Location: ?command=clothes_home");
     }
@@ -461,7 +463,7 @@ class OutfitController
             if ($_FILES["article_img"]["error"] !== 4) {
                 $tempname = $_FILES["article_img"]["tmp_name"];
                 $filename = explode("/", $tempname)[5];
-                $folder = "/Applications/XAMPP/xamppfiles/htdocs/cs4750/OutfitCataloguerV2/images/" . $filename;
+                $folder = dirname(__DIR__, 1) . "/images/" . $filename;
             
                 // move the uploaded image into the folder
                 if (!copy($tempname, $folder)) {
@@ -622,6 +624,7 @@ class OutfitController
             $data = array();
             // get outfits for the user
             $outfitIDs = $this->db->query("SELECT outfitID, outfitName FROM Outfit WHERE UserID = ?;", "i", $_SESSION["UserID"]);
+            // print_r($outfitIDs);
             if (sizeof($outfitIDs) !== 0) {
                 // find all of the itemIDs for each of the outfits
                 foreach ($outfitIDs as $outfitID) {
@@ -635,7 +638,7 @@ class OutfitController
                     // add the outfit id to array to retrieve it later when the outfit is clicked
                     array_push($outfit, $outfitID["outfitID"]);
                     // add the outfit name to array for it to be displayed
-                    array_push($outfit, substr($outfitID["outfitName"], 1, -1));
+                    array_push($outfit, $outfitID["outfitName"]);
                     // get the images FROM Clothes for the itemIDs
                     foreach ($itemIDs as $itemID) {
                         $item = $this->db->query("SELECT image FROM Clothes WHERE itemID = ? AND UserID = ?;", 
@@ -645,6 +648,8 @@ class OutfitController
                         )[0]["image"];
                         array_push($outfit, $item);
                     }
+                    // print_r($outfit); 
+
                     array_push($data, $outfit);
                 }
             }
@@ -676,6 +681,10 @@ class OutfitController
         $outfitName = $outfit["outfitName"];
         $formality = $outfit["formality"];
         $season = $outfit["season"];
+
+        print($outfitName);
+        print($formality);
+        print($season);
 
         // get outfit items' pics
         // get itemID for item from MakeUp table
@@ -723,8 +732,8 @@ class OutfitController
                 $_POST[$i]
                 );
             }
-            header("Location: ?command=outfit_home");
 
+            header("Location: ?command=outfit_home");
         }
 
 
@@ -785,6 +794,7 @@ class OutfitController
                 $this->db->query("INSERT INTO MakeUp VALUES (?, ?, ?);", "iii", $_SESSION["UserID"], $outfitID, $_POST[$i]);
             }
 
+            header("Location: ?command=outfit_home");
         }
 
         // get all matching search results

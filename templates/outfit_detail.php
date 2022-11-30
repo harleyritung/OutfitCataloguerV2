@@ -165,7 +165,8 @@
         <!-- Breadcrumb -->
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="?command=home">Home</a></li>
-          <li class="breadcrumb-item active" aria-current="page">Create Outfits</li>
+          <li class="breadcrumb-item"><a href="?command=home">Outfit Home</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Edit Outfit</li>
         </ol>
       </div>
     </nav>

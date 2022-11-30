@@ -123,28 +123,28 @@
             <!-- Brand -->
             <div class="mb-2">
               <label for="Brand" class="form-label">Brand:</label>
-              <input type="text" class="form-control" id="Brand" name="Brand" maxlength="20" value=<?=$brand?>>
+              <input type="text" class="form-control" id="Brand" name="Brand" maxlength="20" value="<?=$brand?>">
             </div>
             <hr class="m-2">
 
             <!-- Material -->
             <div class="mb-2">
               <label for="Material" class="form-label">Material:</label>
-              <input type="text" class="form-control" id="Material" name="Material" maxlength="20" value=<?=$material?>>
+              <input type="text" class="form-control" id="Material" name="Material" maxlength="20" value="<?=$material?>">
             </div>
             <hr class="m-2">
 
             <!-- Pattern -->
             <div class="mb-2">
               <label for="Pattern" class="form-label">Pattern:</label>
-              <input type="text" class="form-control" id="Pattern" name="Pattern" maxlength="20" value=<?=$pattern?>>
+              <input type="text" class="form-control" id="Pattern" name="Pattern" maxlength="20" value="<?=$pattern?>">
             </div>
             <hr class="m-2">
 
             <!-- Primary Color -->
             <div class="mb-2">
               <label for="PrimaryColor" class="form-label">Primary Color:</label>
-              <input type="text" class="form-control" id="PrimaryColor" name="PrimaryColor" maxlength="20" value=<?=$primaryColor?>>
+              <input type="text" class="form-control" id="PrimaryColor" name="PrimaryColor" maxlength="20" value="<?=$primaryColor?>">
             </div>
             <hr class="m-2">
 
@@ -362,7 +362,7 @@
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="?command=home">Home</a></li>
           <li class="breadcrumb-item"><a href="?command=clothes_home">Clothes Home</a></li>
-          <li class="breadcrumb-item active" aria-current="page">Item Info</li>
+          <li class="breadcrumb-item active" aria-current="page">Edit Item</li>
         </ol>
       </div>
     </nav>

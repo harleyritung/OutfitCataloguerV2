@@ -110,11 +110,14 @@
         // loop through outfits so newest are at the top
         for (end($data); key($data)!==null; prev($data)) {
           $outfit = current($data);
+          print_r($outfit);
       ?>
           <form action="?command=outfit_home" method='post'> 
           <button class="outfit-button">
           <div class="row justify-content-center">
-            <span class="outfit-title">Outfit Name: <?=$outfit[1]?></span>
+            <?php
+            echo "<span class='outfit-title'>Outfit Name: $outfit[1]</span>";
+            ?>
           </div>
 
           <?php

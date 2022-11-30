@@ -222,7 +222,7 @@
               <!-- Accessory Type -->
               <div class="mb-2">
                   <label for="AccessoryType" class="form-label">Accessory Type:</label>
-                  <input type="text" class="form-control" id="AccessoryType" name="AccessoryType" maxlength="20" value=<?=$attr_1?>>
+                  <input type="text" class="form-control" id="AccessoryType" name="AccessoryType" maxlength="20" value="<?=$attr_1?>">
               </div>
               <hr class="m-2">
           </div>
@@ -232,19 +232,19 @@
               <!-- Dress Type -->
               <div class="mb-2">
                   <label for="DressType" class="form-label">Dress Type:</label>
-                  <input type="text" class="form-control" id="DressType" name="DressType" maxlength="20" value=<?=$attr_3?>>
+                  <input type="text" class="form-control" id="DressType" name="DressType" maxlength="20" value="<?=$attr_3?>">
               </div>
               <hr class="m-2">
               <!-- Dress Length -->
               <div class="mb-2">
                   <label for="DressLength" class="form-label">Dress Length:</label>
-                  <input type="text" class="form-control" id="DressLength" name="DressLength" maxlength="20" value=<?=$attr_1?>>
+                  <input type="text" class="form-control" id="DressLength" name="DressLength" maxlength="20" value="<?=$attr_1?>">
               </div>
               <hr class="m-2">
               <!-- Dress Sleeve Length -->
               <div class="mb-2">
                   <label for="DressSleeveLength" class="form-label">Dress Sleeve Length:</label>
-                  <input type="text" class="form-control" id="DressSleeveLength" name="DressSleeveLength" maxlength="20" value=<?=$attr_2?>>
+                  <input type="text" class="form-control" id="DressSleeveLength" name="DressSleeveLength" maxlength="20" value="<?=$attr_2?>">
               </div>
               <hr class="m-2">
           </div>
@@ -254,7 +254,7 @@
               <!-- Jewelry Type -->
               <div class="mb-2">
                   <label for="JewelryType" class="form-label">Jewelry Type:</label>
-                  <input type="text" class="form-control" id="JewelryType" name="JeweleryType" maxlength="20" value=<?=$attr_1?>>
+                  <input type="text" class="form-control" id="JewelryType" name="JewelryType" maxlength="20" value="<?=$attr_1?>">
               </div>
               <hr class="m-2">
           </div>
@@ -264,19 +264,19 @@
               <!-- Outerwear Type -->
               <div class="mb-2">
                   <label for="OuterwearType" class="form-label">Outerwear Type:</label>
-                  <input type="text" class="form-control" id="OuterwearType" name="OuterwearType" maxlength="20" value=<?=$attr_3?>>
+                  <input type="text" class="form-control" id="OuterwearType" name="OuterwearType" maxlength="20" value="<?=$attr_3?>">
               </div>
               <hr class="m-2">
               <!-- Outerwear Length -->
               <div class="mb-2">
                   <label for="OuterwearLength" class="form-label">Outerwear Length:</label>
-                  <input type="text" class="form-control" id="OuterwearLength" name="OuterwearLength" maxlength="20" value=<?=$attr_1?>>
+                  <input type="text" class="form-control" id="OuterwearLength" name="OuterwearLength" maxlength="20" value="<?=$attr_1?>">
               </div>
               <hr class="m-2">
               <!-- Outerwear Weight -->
               <div class="mb-2">
                   <label for="OuterwearWeight" class="form-label">Outerwear Weight:</label>
-                  <input type="text" class="form-control" id="OuterwearWeight" name="OuterwearWeight" maxlength="20" value=<?=$attr_2?>>
+                  <input type="text" class="form-control" id="OuterwearWeight" name="OuterwearWeight" maxlength="20" value="<?=$attr_2?>">
               </div>
               <hr class="m-2">
           </div>
@@ -286,19 +286,19 @@
               <!-- Pants Length -->
               <div class="mb-2">
                   <label for="PantsLength" class="form-label">Pants Length:</label>
-                  <input type="text" class="form-control" id="PantsLength" name="PantsLength" maxlength="20" value=<?=$attr_1?>>
+                  <input type="text" class="form-control" id="PantsLength" name="PantsLength" maxlength="20" value="<?=$attr_1?>">
               </div>
               <hr class="m-2">
               <!-- Pants Weight -->
               <div class="mb-2">
                   <label for="PantsWeight" class="form-label">Pants Weight:</label>
-                  <input type="text" class="form-control" id="PantsWeight" name="PantsWeight" maxlength="20" value=<?=$attr_2?>>
+                  <input type="text" class="form-control" id="PantsWeight" name="PantsWeight" maxlength="20" value="<?=$attr_2?>">
               </div>
               <hr class="m-2">
               <!-- Pants Fit -->
               <div class="mb-2">
                   <label for="PantsFit" class="form-label">Pants Fit:</label>
-                  <input type="text" class="form-control" id="PantsFit" name="PantsFit" maxlength="20" value=<?=$attr_3?>>
+                  <input type="text" class="form-control" id="PantsFit" name="PantsFit" maxlength="20" value="<?=$attr_3?>">
               </div>
               <hr class="m-2">
           </div>
@@ -308,18 +308,18 @@
               <!-- Shirt Type -->
               <div class="mb-2">
                   <label for="ShirtType" class="form-label">Shirt Type:</label>
-                  <input type="text" class="form-control" id="ShirtType" name="ShirtType" maxlength="20" value=<?=$attr_3?>>
+                  <input type="text" class="form-control" id="ShirtType" name="ShirtType" maxlength="20" value="<?=$attr_3?>">
               </div>
               <hr class="m-2">
               <!-- Shirt Length-->
               <div class="mb-2">
                   <label for="ShirtLength" class="form-label">Shirt Length:</label>
-                  <input type="text" class="form-control" id="ShirtLength" name="ShirtLength" maxlength="20" value=<?=$attr_1?>>
+                  <input type="text" class="form-control" id="ShirtLength" name="ShirtLength" maxlength="20" value="<?=$attr_1?>">
               </div>
               <!-- Shirt Sleeve Length -->
               <div class="mb-2">
                 <label for="ShirtSleeveLength" class="form-label">Shirt Sleeve Length:</label>
-                <input type="text" class="form-control" id="ShirtSleeveLength" name="ShirtSleeveLength" maxlength="20" value=<?=$attr_2?>>
+                <input type="text" class="form-control" id="ShirtSleeveLength" name="ShirtSleeveLength" maxlength="20" value="<?=$attr_2?>">
               </div>
               <hr class="m-2">
           </div>
@@ -329,7 +329,7 @@
               <!-- Shoes Type -->
               <div class="mb-2">
                   <label for="ShoesType" class="form-label">Shoes Type:</label>
-                  <input type="text" class="form-control" id="ShoesType" name="ShoesType" maxlength="20" value=<?=$attr_1?>>
+                  <input type="text" class="form-control" id="ShoesType" name="ShoesType" maxlength="20" value="<?=$attr_1?>">
               </div>
               <hr class="m-2">
           </div>
@@ -340,13 +340,13 @@
               <!-- Skirt Type -->
               <div class="mb-2">
                   <label for="SkirtType" class="form-label">Skirt Type:</label>
-                  <input type="text" class="form-control" id="SkirtType" name="SkirtType" maxlength="20" value=<?=$attr_2?>>
+                  <input type="text" class="form-control" id="SkirtType" name="SkirtType" maxlength="20" value="<?=$attr_2?>">
               </div>
               <hr class="m-2">
               <!-- Skirt Length-->
               <div class="mb-2">
                   <label for="SkirtLength" class="form-label">Skirt Length:</label>
-                  <input type="text" class="form-control" id="SkirtLength" name="SkirtLength" maxlength="20" value=<?=$attr_1?>>
+                  <input type="text" class="form-control" id="SkirtLength" name="SkirtLength" maxlength="20" value="<?=$attr_1?>">
               </div>
               <hr class="m-2">
           </div>

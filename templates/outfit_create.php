@@ -115,7 +115,7 @@
           for (end($data); key($data)!==null; prev($data)) {
             $image = current($data);
         ?>
-            <img src="./images/<?php echo $image['image']; ?>" id="<?=$image['itemID']?>" class="img-thumbnail old-img" alt="Article image failed to load">
+            <img src="./images/<?=$image['image']?>" id="<?=$image['itemID']?>" class="img-thumbnail old-img" alt="Article image failed to load">
           <?php
             }
           ?>

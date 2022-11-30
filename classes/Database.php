@@ -20,6 +20,9 @@ class Database {
             if ($query_command === "INSERT" or $query_command === "UPDATE" or $query_command === "SELECT") {
                 // surround string parameters with quotes to prevent spaces from being removed
                 for ($i = 0; $i < sizeof($params); $i++) {
+                    // print($query);
+                    // print($params[$i]);
+
                     // if param is a string and not an image file name
                     if ($bparam[$i] === "s" && (substr($params[$i], 0, 3) !== "php")) {
                         // surround string with double quotes

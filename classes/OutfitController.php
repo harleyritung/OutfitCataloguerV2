@@ -353,6 +353,63 @@ class OutfitController
 
             // update specific clothes item table
             switch ($table) {
+                case "Accessory":
+                    $this->db->query("update Accessory set AccessoryType=? WHERE itemID=?;",
+                    "si",
+                    $_POST["AccessoryType"],
+                    $_SESSION["itemID"]
+                    );
+                    break;
+                case "Dress":
+                    $this->db->query("update Dress set DressType=?, DressLength=?, DressSleeveLength=? WHERE itemID=?;",
+                    "sssi",
+                    $_POST["DressType"],
+                    $_POST["DressLength"],
+                    $_POST["DressSleeveLength"],
+                    $_SESSION["itemID"]
+                    );
+                    break;
+                case "Jewelry":
+                    $this->db->query("update Jewelry set jewelryType=? WHERE itemID=?;",
+                    "si",
+                    $_POST["JewelryType"],
+                    $_SESSION["itemID"]
+                    );
+                    break;
+                case "Outerwear":
+                    $this->db->query("update Outerwear set OuterwearType=?, OuterwearLength=?, OuterwearWeight=? WHERE itemID=?;",
+                    "sssi",
+                    $_POST["OuterwearType"],
+                    $_POST["OuterwearLength"],
+                    $_POST["OuterwearWeight"],
+                    $_SESSION["itemID"]
+                    );
+                    break;
+                case "Pants":
+                    $this->db->query("update Pants set PantsLength=?, PantsWeight=?, PantsFit=? WHERE itemID=?;",
+                    "sssi",
+                    $_POST["PantsLength"],
+                    $_POST["PantsWeight"],
+                    $_POST["PantsFit"],
+                    $_SESSION["itemID"]
+                    );
+                    break;
+                case "Shirt":
+                    $this->db->query("update Shirt set ShirtType=?, ShirtLength=?, ShirtSleeveLength=? WHERE itemID=?;",
+                    "sssi",
+                    $_POST["ShirtType"],
+                    $_POST["ShirtLength"],
+                    $_POST["ShirtSleeveLength"],
+                    $_SESSION["itemID"]
+                    );
+                    break;
+                case "Shoes":
+                    $this->db->query("update Shoes set ShoesType=? WHERE itemID=?;",
+                    "si",
+                    $_POST["ShoesType"],
+                    $_SESSION["itemID"]
+                    );
+                    break;
                 case "Skirt":
                     $this->db->query("update Skirt set SkirtType=?, SkirtLength=? WHERE itemID=?;",
                     "ssi",
@@ -637,12 +694,9 @@ class OutfitController
             )[0];
             array_push($outfitItems, $item);
         }
-        // print_r($outfitItems);
 
         // save outfit button clicked
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            print_r($_POST);
-
             // update Outfit table with new attributes
             $this->db->query("UPDATE Outfit SET season=?, outfitName=?, formality=? WHERE outfitID=? AND UserID=?;",
             "sssii",

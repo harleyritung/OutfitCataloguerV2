@@ -130,15 +130,15 @@
                 <!-- Images and hidden inputs get inserted here with JS -->
                 <div class="mb-2">
                 <label for="Name" class="form-label">Outfit Name:</label>
-                <input type="text" class="form-control" id="Name" name="Name" maxlength="30" value=<?=$outfitName?>>
+                <input type="text" class="form-control" id="Name" name="Name" maxlength="30" value="<?=$outfitName?>">
                 </div>
                 <div class="mb-2">
                 <label for="Formality" class="form-label">Formality:</label>
-                <input type="text" class="form-control" id="Formality" name="Formality" maxlength="20" value=<?=$formality?>>
+                <input type="text" class="form-control" id="Formality" name="Formality" maxlength="20" value="<?=$formality?>">
                 </div>
                 <div class="mb-2">
                 <label for="Season" class="form-label">Season:</label>
-                <input type="text" class="form-control" id="Season" name="Season" maxlength="20" value=<?=$season?>>
+                <input type="text" class="form-control" id="Season" name="Season" maxlength="20" value="<?=$season?>">
                 </div>
                 <a class="btn btn-danger" href="?command=outfit_delete" style="margin: 0 5% auto;">Delete Outfit</a>
                 <button class="btn btn-primary">Save Outfit</button>

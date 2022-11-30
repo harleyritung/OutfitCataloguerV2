@@ -444,6 +444,7 @@ class OutfitController
             $i++;
         }
 
+        $this->db->query("DELETE FROM MakeUp WHERE itemID=? and UserID=?;", "ii", $_SESSION["itemID"], $_SESSION["UserID"]);
         // delete item FROM specific clothes item table
         $this->db->query("DELETE FROM $table WHERE itemID=? and UserID=?;", "ii", $_SESSION["itemID"], $_SESSION["UserID"]);
 
@@ -624,7 +625,6 @@ class OutfitController
             $data = array();
             // get outfits for the user
             $outfitIDs = $this->db->query("SELECT outfitID, outfitName FROM Outfit WHERE UserID = ?;", "i", $_SESSION["UserID"]);
-            // print_r($outfitIDs);
             if (sizeof($outfitIDs) !== 0) {
                 // find all of the itemIDs for each of the outfits
                 foreach ($outfitIDs as $outfitID) {
@@ -648,7 +648,6 @@ class OutfitController
                         )[0]["image"];
                         array_push($outfit, $item);
                     }
-                    // print_r($outfit); 
 
                     array_push($data, $outfit);
                 }
@@ -681,10 +680,6 @@ class OutfitController
         $outfitName = $outfit["outfitName"];
         $formality = $outfit["formality"];
         $season = $outfit["season"];
-
-        print($outfitName);
-        print($formality);
-        print($season);
 
         // get outfit items' pics
         // get itemID for item from MakeUp table
